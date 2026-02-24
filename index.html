@@ -377,82 +377,64 @@ background: linear-gradient(
 #0f172a 100%
 );
 }
-    /* Scroll Progress Indicator */
+   /* Scroll Progress Indicator */
 #scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
-  width: 0%;          /* dynamic width via JS */
-  height: 4px;         /* thin line */
-  background: var(--accent); /* matches your site theme */
+  width: 0%;               /* dynamic width via JS */
+  height: 3px;              /* slightly thinner */
+  background: var(--accent);
   z-index: 9999;
   border-radius: 0 0 3px 3px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-  transition: width 0.2s ease-out;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: width 0.25s ease-out;
 }
-    /* Scroll-to-Section Buttons */
+
+/* Scroll-to-Section Buttons */
 .scroll-buttons {
   position: fixed;
-  right: 30px;
   top: 50%;
+  right: 20px;             /* a bit closer to edge */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  z-index: 5000;
-}
-
-.scroll-btn {
-  background: var(--primary);
-  color: white;
-  text-decoration: none;
-  padding: 12px 20px;
-  border-radius: 50px;
-  font-weight: 600;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  transition: all 0.3s ease;
-}
-
-.scroll-btn:hover {
-  background: var(--accent);
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-}
-    #scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 4px;
-  width: 0%;
-  background: var(--accent);
-  z-index: 9999;
-  transition: width 0.25s ease-out;
-}
-    .scroll-buttons {
-  position: fixed;
-  top: 120px;
-  right: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  gap: 12px;               /* slightly smaller gap */
   z-index: 10000;
 }
 
 .scroll-buttons .scroll-btn {
   background: var(--primary);
   color: white;
-  padding: 12px 20px;
-  border-radius: 50px;
   text-decoration: none;
+  padding: 10px 16px;      /* smaller buttons */
+  border-radius: 50px;
   font-weight: 600;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease, background 0.3s ease;
+  text-align: center;
+  font-size: 0.9rem;       /* slightly smaller text */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .scroll-buttons .scroll-btn:hover {
   background: var(--accent);
-  transform: translateY(-4px);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* Optional: Responsive adjustments for mobile */
+@media (max-width: 600px) {
+  .scroll-buttons {
+    right: 10px;
+    gap: 10px;
+  }
+  .scroll-buttons .scroll-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  #scroll-progress {
+    height: 2px;
+  }
 }
     
 </style>
@@ -533,6 +515,7 @@ document.querySelectorAll('.scroll-btn').forEach(btn => {
   });
 });
 </script>  </body> </html>
+
 
 
 
