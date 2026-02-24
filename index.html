@@ -377,76 +377,70 @@ background: linear-gradient(
 #0f172a 100%
 );
 }
-   /* Scroll Progress Indicator */
+ /* Scroll Progress Indicator */
 #scroll-progress {
   position: fixed;
   top: 0;
   left: 0;
-  width: 0%;               /* dynamic width via JS */
-  height: 3px;              /* slightly thinner */
+  width: 0%;
+  height: 4px;
   background: var(--accent);
   z-index: 9999;
   border-radius: 0 0 3px 3px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
   transition: width 0.25s ease-out;
 }
 
 /* Scroll-to-Section Buttons */
 .scroll-buttons {
   position: fixed;
+  right: 20px;
   top: 50%;
-  right: 20px;             /* a bit closer to edge */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 12px;               /* slightly smaller gap */
-  z-index: 10000;
+  gap: 12px;
+  z-index: 10000; /* above content but below curtain initially */
+  opacity: 0;      /* hidden initially */
+  pointer-events: none; /* not clickable until visible */
+  transition: opacity 0.5s ease, transform 0.3s ease;
 }
 
-.scroll-buttons .scroll-btn {
+.scroll-buttons.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scroll-btn {
   background: var(--primary);
   color: white;
-  text-decoration: none;
-  padding: 10px 16px;      /* smaller buttons */
+  padding: 10px 16px;
   border-radius: 50px;
+  text-decoration: none;
   font-weight: 600;
   text-align: center;
-  font-size: 0.9rem;       /* slightly smaller text */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, background 0.3s ease;
+  font-size: 0.85rem;
 }
 
-.scroll-buttons .scroll-btn:hover {
+.scroll-btn:hover {
   background: var(--accent);
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-
-/* Optional: Responsive adjustments for mobile */
-@media (max-width: 600px) {
-  .scroll-buttons {
-    right: 10px;
-    gap: 10px;
-  }
-  .scroll-buttons .scroll-btn {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-  }
-  #scroll-progress {
-    height: 2px;
-  }
+  transform: translateY(-3px) scale(1.03);
 }
     
 </style>
 
 </head> <body> 
-  <div class="scroll-buttons">
-  <a href="#treatments" class="scroll-btn">treatments</a>
+ <!-- Scroll Progress Indicator -->
+<div id="scroll-progress"></div>
+
+<!-- Scroll-to-Section Buttons -->
+<div class="scroll-buttons">
+  <a href="#services" class="scroll-btn">Services</a>
   <a href="#trust" class="scroll-btn">Trust</a>
   <a href="#contact" class="scroll-btn">Contact</a>
 </div>
-
-<div id="progressBar"></div>
   <div id="curtain-wrapper" aria-hidden="false"> <div class="curtain-panel" id="leftCurtain" aria-hidden="true"></div> <div class="curtain-panel" id="rightCurtain" aria-hidden="true"></div> </div> <div class="curtain-center" id="curtainContent" role="button" tabindex="0" aria-label="Enter website"> <img src="logo.png" alt="AL Shifa Clinic logo"> <h1>AL SHIFA CLINIC</h1> <div class="scroll-indicator">CLICK OR SCROLL TO ENTER</div> </div> <nav id="navbar" role="navigation" aria-label="Main navigation"> <a href="#" class="logo-box" aria-label="AL Shifa Clinic home"> <img src="logo.png" alt="AL Shifa Clinic logo"> <span class="clinic-name">AL SHIFA CLINIC</span> </a> <a href="tel:+917839475476" aria-label="Call AL Shifa Clinic" style="text-decoration:none;color:var(--accent);font-weight:600;">Call Now</a> </nav> <section class="hero" id="hero"> <div data-aos="fade-up"> <h1>Specialized <em>Medical Excellence</em></h1> <p>Advanced diagnostics, structured treatment planning and ethical, long-term healthcare solutions tailored for every patient.</p> <a href="#treatments" class="btn-primary" aria-label="Explore treatments">Explore Treatments</a> </div> </section> <section id="treatments" class="section-padding"> <div class="container"> <div style="text-align:center;margin-bottom:80px"> <h2 style="font-size:3.2rem">Specialized Treatment For</h2> <p style="color:var(--muted);max-width:750px;margin:20px auto 0">Comprehensive expertise across gastroenterology, respiratory medicine, metabolic disorders and advanced internal care.</p> </div>
 <div class="grid-4" role="list">
   <div class="glass-card" data-aos="fade-up" role="listitem" tabindex="0">
@@ -514,7 +508,27 @@ document.querySelectorAll('.scroll-btn').forEach(btn => {
     target.scrollIntoView({ behavior: 'smooth' });
   });
 });
-</script>  </body> </html>
+</script> <script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPercent = (scrollTop / scrollHeight) * 100;
+    document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+  });
+
+  // Scroll-to-section buttons
+  document.querySelectorAll('.scroll-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(btn.getAttribute('href'));
+      if(target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script> </body> </html>
+
 
 
 
