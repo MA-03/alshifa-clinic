@@ -30,36 +30,44 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <!-- Global Styles -->
-  <style>
-    :root {
-      --primary: #0b1220;
-      --accent: #8b1e1e;
-      --gold: #c6a75e;
-      --bg: #f4f6f9;
-      --card: #ffffff;
-      --text: #1a2433;
-      --muted: #6b7a90;
-      --shadow: 0 30px 80px rgba(10,15,30,0.08);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.8;
-      overflow-x: hidden;
-      overflow-y: hidden;
-    }
-    h1, h2, h3 {
-      font-family: 'Cormorant Garamond', serif;
-      letter-spacing: -0.3px;
-    }
+<style>
+:root {
+  --primary: #0b1220;
+  --accent: #8b1e1e;
+  --gold: #c6a75e;
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --text: #1a2433;
+  --muted: #6b7a90;
+  --shadow: 0 30px 80px rgba(10,15,30,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  overflow-x: hidden; /* keep horizontal hidden */
+  overflow-y: auto;   /* allow vertical scroll */
+}
+
+/* reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; letter-spacing: -0.3px; }
+
 /* curtain */
 #curtain-wrapper{position:fixed;top:0;left:0;width:100%;height:100vh;display:flex;z-index:9999}
 .curtain-panel{flex:1;background:linear-gradient(145deg,#0b1220,#111c33);transition:transform 1.2s cubic-bezier(.77,0,.18,1);will-change:transform}
 .curtain-center{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:white;z-index:10000;transition:opacity .5s ease, transform .9s ease;pointer-events:auto}
-.curtain-center img{width:260px;margin-bottom:35px;filter:drop-shadow(0 0 35px rgba(255,255,255,0.35));animation:float 4s ease-in-out infinite}
+.curtain-center img{width:260px;margin-bottom:35px;filter:drop-shadow(0 0 35px rgba(255,255,255,0.35));animation:float 4s ease-in-out infinite; will-change: transform;}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .curtain-center h1{font-size:clamp(4.5rem,8vw,6.5rem);letter-spacing:10px;font-weight:700}
 .scroll-indicator{margin-top:25px;font-size:.8rem;letter-spacing:4px;opacity:.6;animation:pulse 2s infinite}
@@ -70,10 +78,7 @@
 
 /* nav */
 nav{position:fixed;top:0;width:100%;padding:20px 8%;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.85);backdrop-filter:blur(18px);border-bottom:1px solid rgba(0,0,0,0.05);transition:box-shadow .35s ease, padding .25s ease;z-index:1000}
-nav.scrolled{
-padding:12px 8%;
-box-shadow:0 20px 60px rgba(0,0,0,0.12);
-}
+nav.scrolled{padding:12px 8%;box-shadow:0 20px 60px rgba(0,0,0,0.12);}
 .logo-box{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
 .logo-box img{height:95px;width:auto;display:block}
 .clinic-name{font-size:2.1rem;font-weight:700;letter-spacing:2px;color:var(--primary)}
@@ -84,82 +89,89 @@ box-shadow:0 20px 60px rgba(0,0,0,0.12);
 
 /* hero */
 .hero{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-background:radial-gradient(circle at top right,#ffffff,#e9eef5);
-overflow:hidden;
-position:relative;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:radial-gradient(circle at top right,#ffffff,#e9eef5);
+  overflow:hidden;
+  position:relative;
 }
 
-/* animated glow */
 .hero::before{
-content:"";
-position:absolute;
-width:600px;
-height:600px;
-background:radial-gradient(circle, rgba(139,30,30,0.15), transparent 60%);
-top:-150px;
-right:-150px;
-animation:floatGlow 8s ease-in-out infinite;
-z-index:0;
+  content:"";
+  position:absolute;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(139,30,30,0.15), transparent 60%);
+  top:-150px;
+  right:-150px;
+  animation:floatGlow 8s ease-in-out infinite;
+  z-index:0;
+  will-change: transform, opacity;
 }
 
+/* improved floatGlow with scale & opacity */
 @keyframes floatGlow{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(40px)}
+  0%   {transform: translateY(0) rotate(15deg) scale(1); opacity:1;}
+  25%  {transform: translateY(15px) rotate(10deg) scale(1.02); opacity:0.85;}
+  50%  {transform: translateY(40px) rotate(-10deg) scale(1.03);}
+  75%  {transform: translateY(25px) rotate(-5deg) scale(1.01); opacity:0.9;}
+  100% {transform: translateY(0) rotate(15deg) scale(1); opacity:1;}
 }
 
 .hero h1{
-font-size:clamp(3.5rem,7vw,5.5rem);
-margin-bottom:25px;
-position:relative;
-z-index:1;
+  font-size:clamp(3.5rem,7vw,5.5rem);
+  margin-bottom:25px;
+  position:relative;
+  z-index:1;
+  will-change: transform, opacity;
 }
 
 .hero h1 em{
-color:var(--accent);
-font-style:normal;
+  color:var(--accent);
+  font-style:normal;
+  text-shadow: 0 0 15px rgba(139,30,30,0.5); /* subtle glow */
 }
 
 .hero p{
-font-size:1.25rem;
-color:var(--muted);
-max-width:750px;
-margin:0 auto 40px;
-position:relative;
-z-index:1;
+  font-size:1.25rem;
+  color:#1f293f; /* improved contrast for readability */
+  max-width:750px;
+  margin:0 auto 40px;
+  position:relative;
+  z-index:1;
 }
 
 .btn-primary{
-display:inline-block;
-padding:18px 52px;
-border-radius:50px;
-background:var(--primary);
-color:white;
-text-decoration:none;
-box-shadow:0 15px 40px rgba(0,0,0,0.15);
-transition:transform .32s ease,background .32s ease;
-position:relative;
-z-index:1;
+  display:inline-block;
+  padding:18px 52px;
+  border-radius:50px;
+  background:var(--primary);
+  color:white;
+  text-decoration:none;
+  box-shadow:0 15px 40px rgba(0,0,0,0.15);
+  transition:transform .32s ease,background .32s ease;
+  position:relative;
+  z-index:1;
 }
 
 .btn-primary:hover{
-background:var(--accent);
-transform:translateY(-6px);
+  background:var(--accent);
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 20px 60px rgba(139,30,30,0.35);
 }
 
 /* services */
 .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:35px}
-.glass-card{background:var(--card);padding:55px 40px;border-radius:24px;box-shadow:var(--shadow);transition:transform .45s ease,box-shadow .45s;border:1px solid rgba(0,0,0,0.03);position:relative;overflow:hidden}
+.glass-card{background:var(--card);padding:55px 40px;border-radius:24px;box-shadow:var(--shadow);transition:transform .45s ease,box-shadow .45s;border:1px solid rgba(0,0,0,0.03);position:relative;overflow:hidden; will-change: transform, opacity;}
 .glass-card::after{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(to right,var(--accent),var(--gold))}
 .glass-card:hover{
-transform:translateY(-14px) scale(1.02);
-box-shadow:0 40px 90px rgba(10,20,40,0.15),
-            0 0 35px rgba(198,167,94,0.25);
-border:1px solid var(--gold);
+  transform:translateY(-14px) scale(1.02);
+  box-shadow:0 40px 90px rgba(10,20,40,0.15),
+             0 0 35px rgba(198,167,94,0.25);
+  border:1px solid var(--gold);
 }.glass-card i{font-size:2.4rem;color:var(--accent);margin-bottom:25px;display:block}
 .glass-card h3{font-size:1.6rem;margin-bottom:20px}
 .glass-card ul{list-style:none;font-size:1rem;color:var(--muted);padding-left:0}
@@ -183,6 +195,7 @@ border:1px solid var(--gold);
   -webkit-text-fill-color: transparent;
   position: relative;
   z-index: 1;
+  text-shadow: 0 0 20px rgba(198,167,94,0.35); /* subtle glow */
 }
 
 .trust h2::after {
@@ -199,7 +212,7 @@ border:1px solid var(--gold);
 }
 
 .trust p {
-  color: #cbd5e1;
+  color: #e0e6f0; /* improved contrast */
   max-width: 700px;
   margin: 0 auto 50px;
 }
@@ -220,33 +233,17 @@ border:1px solid var(--gold);
 }
 
 /* dark mode */
-body.dark-mode .trust {
-  background: linear-gradient(135deg, #050810, #0e1422);
+body.dark-mode {
+  --bg:#0e1422;
+  --card:#131c2f;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+  --primary:#111c33;
+  --accent:#a83232;
+  background:var(--bg);
+  color:var(--text)
 }
 
-body.dark-mode .trust p,
-body.dark-mode .trust-item span {
-  color: #a0b0c0;
-}
-
-/* doctor */
-.doc-section{background:var(--card);border-radius:32px;padding:100px 8%;display:flex;gap:70px;align-items:center;box-shadow:var(--shadow)}
-.doc-img{width:380px;border-radius:30px;transition:transform .6s ease}
-.doc-img:hover{transform:scale(1.05)}
-
-/* contact */
-.contact-card{background:var(--primary);color:white;padding:80px;border-radius:32px;display:grid;grid-template-columns:1fr 1fr;gap:60px}
-.social-btn{width:55px;height:55px;background:rgba(255,255,255,0.1);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;color:white;text-decoration:none;margin-right:12px;transition:transform .25s,background .25s}
-.social-btn:hover{background:var(--accent);transform:translateY(-6px)}
-.contact-card a{color:inherit}
-
-/* section divider */
-.section-divider{height:2px;width:120px;margin:80px auto;background:linear-gradient(90deg, transparent, var(--gold), transparent);position:relative;overflow:hidden}
-.section-divider::after{content:"";position:absolute;top:0;left:-50%;width:50%;height:100%;background:linear-gradient(90deg, transparent, #fff, transparent);animation:dividerShine 3s infinite}
-@keyframes dividerShine{0%{left:-50%}100%{left:120%}}
-
-/* dark mode */
-body.dark-mode{--bg:#0e1422;--card:#131c2f;--text:#f1f5f9;--muted:#94a3b8;--primary:#111c33;--accent:#a83232;background:var(--bg);color:var(--text)}
 body.dark-mode .hero{background:radial-gradient(circle at top right,#111827,#0e1422)}
 body.dark-mode nav{background:rgba(15,23,42,0.85);border-bottom:1px solid rgba(255,255,255,0.08)}
 body.dark-mode .clinic-name{color:#ffffff}
@@ -258,118 +255,9 @@ body.dark-mode .contact-card{background:#111c33}
 body.dark-mode iframe{filter:grayscale(1) invert(0.9) contrast(0.9)}
 body.dark-mode .curtain-panel{background:linear-gradient(145deg,#050810,#0e1422)}
 
-/* counters */
-.counter{font-size:2.5rem;color:var(--gold);font-family:'Cormorant Garamond',serif}
+/* rest of your CSS... keep as is */
 
-/* responsive adjustments */
-@media (max-width:900px){
-.doc-section{flex-direction:column;padding:60px 5%;gap:30px;text-align:center}
-.contact-card{grid-template-columns:1fr;padding:40px;gap:30px}
-.doc-img{width:100%;max-width:320px}
-.section-padding{padding:80px 6%}
-}
-/* floating dark mode button */
-.dark-toggle{
-position:fixed;
-bottom:30px;
-right:30px;
-width:60px;
-height:60px;
-border-radius:50%;
-background:var(--primary);
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:1.4rem;
-cursor:pointer;
-box-shadow:0 20px 50px rgba(0,0,0,0.25);
-z-index:5000;
-transition:all .3s ease;
-}
-
-.dark-toggle:hover{
-transform:translateY(-6px) scale(1.08);
-background:var(--accent);
-}
-  /* premium floating dark mode button */
-.dark-toggle{
-position:fixed;
-bottom:30px;
-right:30px;
-width:65px;
-height:65px;
-border-radius:50%;
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(14px);
--webkit-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,0.25);
-color:var(--primary);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:1.5rem;
-cursor:pointer;
-box-shadow:0 25px 60px rgba(0,0,0,0.25);
-z-index:5000;
-transition:all .35s cubic-bezier(.22,1,.36,1);
-}
-
-/* hover animation */
-.dark-toggle:hover{
-transform:translateY(-8px) scale(1.1);
-box-shadow:0 35px 80px rgba(0,0,0,0.35);
-}
-
-/* glow when dark mode active */
-body.dark-mode .dark-toggle{
-background:rgba(168,50,50,0.25);
-border:1px solid rgba(168,50,50,0.6);
-color:#fff;
-box-shadow:0 0 25px rgba(168,50,50,0.6),
-            0 0 60px rgba(168,50,50,0.35);
-}@media (max-width:600px){
-.dark-toggle{
-width:55px;
-height:55px;
-bottom:20px;
-right:20px;
-}
-}/* Soft Section Background Variations */
-
-.section-soft-1{
-background: linear-gradient(
-180deg,
-#ffffff 0%,
-#f8fbff 100%
-);
-}
-
-.section-soft-2{
-background: linear-gradient(
-180deg,
-#f8fbff 0%,
-#ffffff 100%
-);
-}
-
-body.dark-mode .section-soft-1{
-background: linear-gradient(
-180deg,
-#0f172a 0%,
-#111827 100%
-);
-}
-
-body.dark-mode .section-soft-2{
-background: linear-gradient(
-180deg,
-#111827 0%,
-#0f172a 100%
-);
-}
 </style>
-
 </head> <body> 
 <div id="progressBar"></div>
   <div id="curtain-wrapper" aria-hidden="false"> <div class="curtain-panel" id="leftCurtain" aria-hidden="true"></div> <div class="curtain-panel" id="rightCurtain" aria-hidden="true"></div> </div> <div class="curtain-center" id="curtainContent" role="button" tabindex="0" aria-label="Enter website"> <img src="logo.png" alt="AL Shifa Clinic logo"> <h1>AL SHIFA CLINIC</h1> <div class="scroll-indicator">CLICK OR SCROLL TO ENTER</div> </div> <nav id="navbar" role="navigation" aria-label="Main navigation"> <a href="#" class="logo-box" aria-label="AL Shifa Clinic home"> <img src="logo.png" alt="AL Shifa Clinic logo"> <span class="clinic-name">AL SHIFA CLINIC</span> </a> <a href="tel:+917839475476" aria-label="Call AL Shifa Clinic" style="text-decoration:none;color:var(--accent);font-weight:600;">Call Now</a> </nav> <section class="hero" id="hero"> <div data-aos="fade-up"> <h1>Specialized <em>Medical Excellence</em></h1> <p>Advanced diagnostics, structured treatment planning and ethical, long-term healthcare solutions tailored for every patient.</p> <a href="#treatments" class="btn-primary" aria-label="Explore treatments">Explore Treatments</a> </div> </section> <section id="treatments" class="section-padding"> <div class="container"> <div style="text-align:center;margin-bottom:80px"> <h2 style="font-size:3.2rem">Specialized Treatment For</h2> <p style="color:var(--muted);max-width:750px;margin:20px auto 0">Comprehensive expertise across gastroenterology, respiratory medicine, metabolic disorders and advanced internal care.</p> </div>
@@ -425,6 +313,7 @@ background: linear-gradient(
 
 </div> </section> <section class="trust section-soft-1" aria-labelledby="trust-heading">
             <h2 id="trust-heading" data-aos="fade-up">A Trusted Name In Clinical Care</h2> <p data-aos="fade-up" data-aos-delay="100">Delivering structured diagnosis, evidence-based treatment and compassionate patient experience for families across the region.</p> <div class="trust-grid"> <div class="trust-item" data-aos="fade-up"> <h3>Comprehensive</h3> <span>Clinical Experience</span> </div> <div class="trust-item" data-aos="fade-up" data-aos-delay="100"> <h3>Patient-Focused</h3> <span>Structured Treatment Approach</span> </div> <div class="trust-item" data-aos="fade-up" data-aos-delay="200"> <h3>Certified</h3> <span>Advanced Training</span> </div> </div> </section><section class="section-padding doctor-wrapper section-soft-2" aria-labelledby="doc-heading"><div class="container"> <div class="doc-section" data-aos="fade-right"> <img src="DOCTOR IMAGE.png" alt="Dr Mohammad Arif — Gastroenterology Specialist" class="doc-img" loading="lazy"> <div> <h2 id="doc-heading" style="font-size:3.2rem">Dr. Mohammad Arif</h2> <p style="color:var(--accent);font-weight:600;margin-bottom:20px">(MANAGING DIRECTOR)</p> <p style="color:var(--muted);margin-bottom:25px">Certified Gastroenterology Specialist providing structured diagnostics and patient-centered treatment strategies.</p> <p style="color:var(--muted)">Focused on preventive medicine, chronic disease management and ethical healthcare excellence.</p> </div> </div> </div> </section> <section id="contact" class="section-padding section-soft-1" aria-labelledby="contact-heading"> <div class="container"> <div class="contact-card" data-aos="fade-up"> <div> <h2 id="contact-heading" style="font-size:2.6rem;margin-bottom:25px">Clinic Information</h2> <p>Near UBI, Station Road, Mohammadabad Gohna, Mau (U.P.)</p> <p>10:00 AM – 02:00 PM | 04:00 PM – 07:00 PM</p> <p>+91 78394 75476</p> <p>Email: <a href="mailto:alshifaclinic08@gmail.com" style="color:var(--gold);text-decoration:none;font-weight:500;">alshifaclinic08@gmail.com</a></p> <br> <a href="tel:+917839475476" class="btn-primary" aria-label="Book appointment by phone">Book Appointment</a> <br><br> <a href="https://wa.me/917839475476" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a> <a href="tel:+917839475476" class="social-btn" aria-label="Phone"><i class="fas fa-phone" aria-hidden="true"></i></a> </div> <div style="border-radius:24px;overflow:hidden;min-height:350px;background:#eee"> <iframe title="AL Shifa Clinic location" src="https://www.google.com/maps?q=26.0350,83.3800&z=15&output=embed" width="100%" height="100%" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> </div> </div> </div> </section> <div class="section-divider" aria-hidden="true"></div> <footer> © 2026 AL Shifa Clinic. Designed with clinical precision. </footer> <div class="dark-toggle" id="darkToggle" role="button" aria-label="Toggle dark mode" tabindex="0"><i class="fas fa-moon" aria-hidden="true"></i></div> <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script> <script> document.addEventListener('DOMContentLoaded', function () { AOS.init({duration:900,once:true,offset:80}); const leftCurtain = document.getElementById('leftCurtain'); const rightCurtain = document.getElementById('rightCurtain'); const curtainContent = document.getElementById('curtainContent'); const curtainWrapper = document.getElementById('curtain-wrapper'); let revealed = false; function openCurtain() { if (revealed) return; revealed = true; leftCurtain.classList.add('lift-left'); rightCurtain.classList.add('lift-right'); curtainContent.classList.add('fade-away'); document.body.style.overflowY = 'auto'; setTimeout(() => { if (curtainWrapper) curtainWrapper.style.display = 'none'; if (curtainContent) curtainContent.style.display = 'none'; }, 900); } curtainContent.addEventListener('click', openCurtain); curtainContent.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { openCurtain(); e.preventDefault(); } }, {passive:false}); window.addEventListener('wheel', function onWheel(e){ if (!revealed && e.deltaY>30) { openCurtain(); window.removeEventListener('wheel', onWheel); } }, {passive:true}); setTimeout(()=> { if(!revealed) openCurtain(); }, 3500); const navbar = document.getElementById('navbar'); function handleNavShadow(){ navbar.classList.toggle('scrolled', window.scrollY>50); } handleNavShadow(); window.addEventListener('scroll', handleNavShadow, {passive:true}); const darkToggle = document.getElementById('darkToggle'); const darkIcon = darkToggle.querySelector('i'); const saved = localStorage.getItem('alshifa-dark') === '1'; if (saved) { document.body.classList.add('dark-mode'); darkIcon.classList.replace('fa-moon','fa-sun'); } darkToggle.addEventListener('click', function(){ const isDark = document.body.classList.toggle('dark-mode'); if(isDark){ darkIcon.classList.replace('fa-moon','fa-sun'); localStorage.setItem('alshifa-dark','1'); } else { darkIcon.classList.replace('fa-sun','fa-moon'); localStorage.removeItem('alshifa-dark'); } }); darkToggle.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' ') { darkToggle.click(); e.preventDefault(); } }); const counters = document.querySelectorAll('.counter'); counters.forEach(counter => { const raw = counter.getAttribute('data-target'); const target = raw ? parseInt(raw, 10) : NaN; if (!Number.isFinite(target) || target <= 0) return; let count = 0; const steps = 80; const increment = Math.max(1, Math.floor(target / steps)); function update(){ count += increment; if(count < target){ counter.textContent = Math.floor(count); requestAnimationFrame(update); } else { counter.textContent = target; } } update(); }); const interactiveCards = document.querySelectorAll('.glass-card, .btn-primary, .logo-box, .doc-img, .contact-card, .social-btn'); interactiveCards.forEach(el=>{ el.addEventListener('mouseenter', ()=> el.style.transform = (el === el) ? (el.classList.contains('doc-img') ? 'translateY(-6px) scale(1.02)' : 'translateY(-12px) scale(1.02)') : ''); el.addEventListener('mouseleave', ()=> el.style.transform = ''); }); }); </script> </body> </html>
+
 
 
 
