@@ -164,12 +164,67 @@ border:1px solid var(--gold);
 .glass-card li::before{content:"";width:7px;height:7px;background:var(--gold);border-radius:50%;position:absolute;left:0;top:9px}
 
 /* trust */
-.trust{background:linear-gradient(135deg,#0b1220,#111c33);color:white;text-align:center;padding:120px 8%}
-.trust h2{font-size:3rem;margin-bottom:20px}
-.trust p{color:#cbd5e1;max-width:700px;margin:0 auto 50px}
-.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px}
-.trust-item h3{font-size:2.5rem;color:var(--gold)}
-.trust-item span{color:#cbd5e1}
+.trust {
+  background: linear-gradient(135deg, #0b1220, #111c33);
+  text-align: center;
+  padding: 120px 8%;
+  position: relative;
+  overflow: hidden;
+}
+
+.trust h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--gold), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.trust h2::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 220%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent 70%);
+  transform: translate(-50%, -50%) rotate(20deg);
+  z-index: 0;
+  filter: blur(25px);
+}
+
+.trust p {
+  color: #cbd5e1;
+  max-width: 700px;
+  margin: 0 auto 50px;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.trust-item h3 {
+  font-size: 2.5rem;
+  color: var(--gold);
+}
+
+.trust-item span {
+  color: #cbd5e1;
+}
+
+/* dark mode */
+body.dark-mode .trust {
+  background: linear-gradient(135deg, #050810, #0e1422);
+}
+
+body.dark-mode .trust p,
+body.dark-mode .trust-item span {
+  color: #a0b0c0;
+}
 
 /* doctor */
 .doc-section{background:var(--card);border-radius:32px;padding:100px 8%;display:flex;gap:70px;align-items:center;box-shadow:var(--shadow)}
@@ -367,6 +422,7 @@ background: linear-gradient(
 
 </div> </section> <section class="trust section-soft-1" aria-labelledby="trust-heading">
             <h2 id="trust-heading" data-aos="fade-up">A Trusted Name In Clinical Care</h2> <p data-aos="fade-up" data-aos-delay="100">Delivering structured diagnosis, evidence-based treatment and compassionate patient experience for families across the region.</p> <div class="trust-grid"> <div class="trust-item" data-aos="fade-up"> <h3>Comprehensive</h3> <span>Clinical Experience</span> </div> <div class="trust-item" data-aos="fade-up" data-aos-delay="100"> <h3>Patient-Focused</h3> <span>Structured Treatment Approach</span> </div> <div class="trust-item" data-aos="fade-up" data-aos-delay="200"> <h3>Certified</h3> <span>Advanced Training</span> </div> </div> </section><section class="section-padding doctor-wrapper section-soft-2" aria-labelledby="doc-heading"><div class="container"> <div class="doc-section" data-aos="fade-right"> <img src="DOCTOR IMAGE.png" alt="Dr Mohammad Arif — Gastroenterology Specialist" class="doc-img" loading="lazy"> <div> <h2 id="doc-heading" style="font-size:3.2rem">Dr. Mohammad Arif</h2> <p style="color:var(--accent);font-weight:600;margin-bottom:20px">(MANAGING DIRECTOR)</p> <p style="color:var(--muted);margin-bottom:25px">Certified Gastroenterology Specialist providing structured diagnostics and patient-centered treatment strategies.</p> <p style="color:var(--muted)">Focused on preventive medicine, chronic disease management and ethical healthcare excellence.</p> </div> </div> </div> </section> <section id="contact" class="section-padding section-soft-1" aria-labelledby="contact-heading"> <div class="container"> <div class="contact-card" data-aos="fade-up"> <div> <h2 id="contact-heading" style="font-size:2.6rem;margin-bottom:25px">Clinic Information</h2> <p>Near UBI, Station Road, Mohammadabad Gohna, Mau (U.P.)</p> <p>10:00 AM – 02:00 PM | 04:00 PM – 07:00 PM</p> <p>+91 78394 75476</p> <p>Email: <a href="mailto:alshifaclinic08@gmail.com" style="color:var(--gold);text-decoration:none;font-weight:500;">alshifaclinic08@gmail.com</a></p> <br> <a href="tel:+917839475476" class="btn-primary" aria-label="Book appointment by phone">Book Appointment</a> <br><br> <a href="https://wa.me/917839475476" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp" aria-hidden="true"></i></a> <a href="tel:+917839475476" class="social-btn" aria-label="Phone"><i class="fas fa-phone" aria-hidden="true"></i></a> </div> <div style="border-radius:24px;overflow:hidden;min-height:350px;background:#eee"> <iframe title="AL Shifa Clinic location" src="https://www.google.com/maps?q=26.0350,83.3800&z=15&output=embed" width="100%" height="100%" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> </div> </div> </div> </section> <div class="section-divider" aria-hidden="true"></div> <footer> © 2026 AL Shifa Clinic. Designed with clinical precision. </footer> <div class="dark-toggle" id="darkToggle" role="button" aria-label="Toggle dark mode" tabindex="0"><i class="fas fa-moon" aria-hidden="true"></i></div> <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script> <script> document.addEventListener('DOMContentLoaded', function () { AOS.init({duration:900,once:true,offset:80}); const leftCurtain = document.getElementById('leftCurtain'); const rightCurtain = document.getElementById('rightCurtain'); const curtainContent = document.getElementById('curtainContent'); const curtainWrapper = document.getElementById('curtain-wrapper'); let revealed = false; function openCurtain() { if (revealed) return; revealed = true; leftCurtain.classList.add('lift-left'); rightCurtain.classList.add('lift-right'); curtainContent.classList.add('fade-away'); document.body.style.overflowY = 'auto'; setTimeout(() => { if (curtainWrapper) curtainWrapper.style.display = 'none'; if (curtainContent) curtainContent.style.display = 'none'; }, 900); } curtainContent.addEventListener('click', openCurtain); curtainContent.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { openCurtain(); e.preventDefault(); } }, {passive:false}); window.addEventListener('wheel', function onWheel(e){ if (!revealed && e.deltaY>30) { openCurtain(); window.removeEventListener('wheel', onWheel); } }, {passive:true}); setTimeout(()=> { if(!revealed) openCurtain(); }, 3500); const navbar = document.getElementById('navbar'); function handleNavShadow(){ navbar.classList.toggle('scrolled', window.scrollY>50); } handleNavShadow(); window.addEventListener('scroll', handleNavShadow, {passive:true}); const darkToggle = document.getElementById('darkToggle'); const darkIcon = darkToggle.querySelector('i'); const saved = localStorage.getItem('alshifa-dark') === '1'; if (saved) { document.body.classList.add('dark-mode'); darkIcon.classList.replace('fa-moon','fa-sun'); } darkToggle.addEventListener('click', function(){ const isDark = document.body.classList.toggle('dark-mode'); if(isDark){ darkIcon.classList.replace('fa-moon','fa-sun'); localStorage.setItem('alshifa-dark','1'); } else { darkIcon.classList.replace('fa-sun','fa-moon'); localStorage.removeItem('alshifa-dark'); } }); darkToggle.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' ') { darkToggle.click(); e.preventDefault(); } }); const counters = document.querySelectorAll('.counter'); counters.forEach(counter => { const raw = counter.getAttribute('data-target'); const target = raw ? parseInt(raw, 10) : NaN; if (!Number.isFinite(target) || target <= 0) return; let count = 0; const steps = 80; const increment = Math.max(1, Math.floor(target / steps)); function update(){ count += increment; if(count < target){ counter.textContent = Math.floor(count); requestAnimationFrame(update); } else { counter.textContent = target; } } update(); }); const interactiveCards = document.querySelectorAll('.glass-card, .btn-primary, .logo-box, .doc-img, .contact-card, .social-btn'); interactiveCards.forEach(el=>{ el.addEventListener('mouseenter', ()=> el.style.transform = (el === el) ? (el.classList.contains('doc-img') ? 'translateY(-6px) scale(1.02)' : 'translateY(-12px) scale(1.02)') : ''); el.addEventListener('mouseleave', ()=> el.style.transform = ''); }); }); </script> </body> </html>
+
 
 
 
