@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
    <meta charset="utf-8">
@@ -10,38 +10,54 @@
    <!-- Fonts -->
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Hind:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+Devanagari:wght@400;600&family=Hind:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
    
    <!-- Icons -->
    <script src="https://unpkg.com/lucide@latest"></script>
    
    <style>
-      /* ===== VARIABLES ===== */
+      /* 
+         =========================================
+         DESIGN SYSTEM
+         =========================================
+      */
       :root {
+         /* Colors */
          --primary: #0b1220;
          --accent: #8b1e1e;
          --gold: #c6a75e;
+         --gold-light: #e2c98a;
          --bg: #f4f6f9;
          --bg-alt: #eef1f5;
          --card: #ffffff;
          --text: #1a2433;
-         --muted: #6b7a90;
+         --muted: #5a6a80;
+         --border: rgba(0, 0, 0, 0.03);
+
+         /* Gradients */
+         /* High Intensity (Bright) */
+         --grad-high: linear-gradient(90deg, #fff, #ffeaa7, #fff);
+         /* Medium Intensity (Branded) */
+         --grad-med: linear-gradient(135deg, #8b1e1e, #b1853f, #8b1e1e);
+
+         /* Motion */
+         --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+         --t-fast: 150ms;
+         --t-normal: 400ms;
          
-         --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
-         --duration-fast: 150ms;
-         --duration-normal: 400ms;
-         --duration-slow: 800ms;
-         
-         --radius: 12px;
-         --radius-lg: 24px;
+         /* Radius */
+         --r-sm: 6px;
+         --r-md: 12px;
+         --r-lg: 24px;
+         --r-full: 9999px;
       }
 
       [data-theme="dark"] {
-         --bg: #08080c;
-         --bg-alt: #0d0d12;
-         --card: #12161d;
-         --text: #f0f4f8;
-         --muted: #8a9aaa;
+         --bg: #08080c; --bg-alt: #0d0d12; --card: #12161d;
+         --text: #f0f4f8; --muted: #8a9aaa;
+         --border: rgba(255, 255, 255, 0.05);
+         --grad-high: linear-gradient(90deg, #c6a75e, #ffeaa7, #c6a75e);
+         --grad-med: linear-gradient(135deg, #c6a75e, #ffeaa7, #c6a75e);
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -51,39 +67,41 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       
       html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-
       ::-webkit-scrollbar { width: 6px; height: 6px; }
       ::-webkit-scrollbar-track { background: var(--bg); }
       ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
       
       body {
-         font-family: 'Inter', sans-serif;
+         font-family: 'DM Sans', 'Inter', sans-serif;
          background: var(--bg);
          color: var(--text);
-         line-height: 1.7;
+         line-height: 1.65;
          overflow-x: hidden;
          cursor: none;
+         -webkit-font-smoothing: antialiased;
+         text-rendering: optimizeLegibility;
+         background-image: 
+            radial-gradient(at 40% 20%, rgba(198, 167, 94, 0.02) 0px, transparent 50%),
+            radial-gradient(at 80% 0%, rgba(139, 30, 30, 0.01) 0px, transparent 50%);
+         background-attachment: fixed;
       }
 
-      body.lang-hi { 
-         font-family: 'Hind', sans-serif; 
-         line-height: 1.9;
-      }
-      body.lang-hi h1, body.lang-hi h2, body.lang-hi h3 {
-         font-family: 'Noto Serif Devanagari', serif;
-         letter-spacing: 0;
-      }
+      body.lang-hi { font-family: 'Hind', sans-serif; line-height: 1.8; }
+      body.lang-hi h1, body.lang-hi h2, body.lang-hi h3 { font-family: 'Noto Serif Devanagari', serif; }
       
       h1, h2, h3, h4, .serif-font {
          font-family: 'Playfair Display', serif;
-         letter-spacing: -0.03em;
+         letter-spacing: -0.02em;
          font-weight: 600;
+         line-height: 1.2;
       }
 
-      :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-      ::selection { background: rgba(139, 30, 30, 0.8); color: white; }
+      p { font-size: 1.05rem; color: var(--muted); margin-bottom: 1.5em; }
 
-      /* ===== CURSOR SYSTEM ===== */
+      :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+      ::selection { background: var(--accent); color: white; }
+
+      /* Custom Cursor */
       .cursor-dot, .cursor-ring {
          pointer-events: none; position: fixed; top: 0; left: 0;
          border-radius: 50%; z-index: 10005;
@@ -91,9 +109,16 @@
          transition: opacity 0.3s ease;
       }
       body.mouse-moved .cursor-dot, body.mouse-moved .cursor-ring { opacity: 1; }
-      .cursor-dot { width: 6px; height: 6px; background: var(--gold); mix-blend-mode: difference; }
-      .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(198, 167, 94, 0.5); transition: width 0.2s, height 0.2s, border-color 0.2s; }
-      body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: var(--accent); background: rgba(139, 30, 30, 0.05); }
+      .cursor-dot { width: 6px; height: 6px; background: var(--gold); }
+      .cursor-ring { 
+         width: 40px; height: 40px; 
+         border: 1px solid rgba(198, 167, 94, 0.4);
+         transition: width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
+      }
+      body.cursor-hover .cursor-ring { 
+         width: 60px; height: 60px; 
+         border-color: var(--accent); background: rgba(139, 30, 30, 0.05);
+      }
 
       @media (pointer: coarse) {
          .cursor-dot, .cursor-ring { display: none !important; }
@@ -103,97 +128,142 @@
       /* Scroll Progress */
       #scroll-progress {
          position: fixed; top: 0; left: 0; height: 3px;
-         background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+         background: var(--grad-med);
          background-size: 200% 100%; width: 0%; z-index: 9999;
          animation: shimmer 2s linear infinite;
       }
       @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-      /* ===== CURTAIN LOADER ===== */
+      /* Loader */
       #curtain-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; z-index: 10000; pointer-events: none; }
-      .curtain-panel { flex: 1; background: var(--primary); transition: transform 1.2s var(--ease-premium); }
+      .curtain-panel { flex: 1; background: var(--primary); transition: transform 1.2s var(--ease-out); }
       .curtain-center { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10001; cursor: pointer; pointer-events: auto; transition: opacity 0.8s ease, filter 0.8s ease; }
-      .curtain-center img { width: 140px; margin-bottom: 25px; filter: drop-shadow(0 0 25px rgba(198, 167, 94, 0.5)); animation: floatLogo 4s ease-in-out infinite; }
-      @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-      .curtain-center h1 { font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 600; letter-spacing: 2px; margin-bottom: 10px; }
-      .curtain-center p { font-size: 1rem; opacity: 0.8; letter-spacing: 1px; }
+      
+      /* Enhanced Curtain Logo */
+      .curtain-center img { 
+         width: 220px; 
+         margin-bottom: 30px; 
+         filter: drop-shadow(0 0 35px rgba(198, 167, 94, 0.8)); 
+         animation: floatLogo 4s ease-in-out infinite, pulseGlow 3s ease-in-out infinite; 
+      }
+      @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+      @keyframes pulseGlow { 0%, 100% { filter: drop-shadow(0 0 35px rgba(198, 167, 94, 0.6)); } 50% { filter: drop-shadow(0 0 60px rgba(198, 167, 94, 1)); } }
+
+      .curtain-center h1 { 
+         font-size: clamp(3.5rem, 8vw, 5rem); 
+         font-weight: 600; letter-spacing: 2px; margin-bottom: 15px; 
+         text-shadow: 0 0 20px rgba(255,255,255,0.3); 
+      }
+      .curtain-center p { font-size: 1.2rem; opacity: 0.9; letter-spacing: 1px; margin: 0; }
+      
       .lift-left { transform: translateX(-100%); }
       .lift-right { transform: translateX(100%); }
       .fade-away { opacity: 0; filter: blur(10px); pointer-events: none; }
 
-      /* ===== NAVIGATION ===== */
+      /* Navigation */
       .nav-dots { position: fixed; right: 25px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
       .nav-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(198, 167, 94, 0.3); transition: all 0.3s ease; cursor: none; position: relative; }
       .nav-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid transparent; transition: border-color 0.3s; }
       .nav-dot.active { background: var(--gold); transform: scale(1.2); }
       .nav-dot.active::after { border-color: var(--gold); }
       
-      nav { position: fixed; top: 0; width: 100%; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; background: transparent; z-index: 1000; transition: all var(--duration-normal) var(--ease-premium); }
+      nav { position: fixed; top: 0; width: 100%; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; background: transparent; z-index: 1000; transition: all var(--t-normal) var(--ease-out); }
       nav.scrolled { padding: 12px 5%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); box-shadow: 0 4px 30px rgba(0,0,0,0.03); }
       [data-theme="dark"] nav.scrolled { background: rgba(8, 8, 12, 0.9); }
       
       .logo-box { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-      .logo-box img { height: 55px; width: auto; }
+      .logo-box img { height: 55px; width: auto; transition: transform var(--t-normal); }
+      .logo-box:hover img { transform: scale(1.05); }
       .clinic-name { font-size: 1.35rem; font-weight: 500; color: var(--text); }
       
       .nav-links { display: flex; gap: 30px; align-items: center; }
-      .nav-link { position: relative; color: var(--muted); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color var(--duration-normal); }
+      .nav-link { position: relative; color: var(--muted); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color var(--t-normal); padding: 5px 0; }
       .nav-link:hover, .nav-link.active { color: var(--text); }
-      .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--gold); transition: width var(--duration-normal) var(--ease-premium); }
+      .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold); transition: width var(--t-normal) var(--ease-out); }
       .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 
-      .lang-btn { padding: 10px 18px; border-radius: var(--radius); border: 1px solid rgba(198, 167, 94, 0.35); background: transparent; color: var(--gold); cursor: none; font-weight: 500; font-size: 0.85rem; transition: all var(--duration-fast); }
+      .lang-btn { padding: 10px 18px; border-radius: var(--r-md); border: 1px solid var(--border); background: transparent; color: var(--gold); cursor: none; font-weight: 500; font-size: 0.85rem; transition: all var(--t-fast); font-family: 'DM Sans', sans-serif; }
       .lang-btn:hover { background: rgba(198, 167, 94, 0.1); border-color: var(--gold); }
 
-      /* ===== SECTION DIVIDERS ===== */
+      /* Section Dividers */
       .section-divider {
-         width: 100%; height: 1px; background: transparent;
+         width: 100%; height: 40px; background: transparent;
          position: relative; margin: 0 auto;
          display: flex; justify-content: center; align-items: center;
-         padding: 40px 0;
       }
       .section-divider::after {
-         content: ''; width: 0; height: 2px;
-         background: linear-gradient(90deg, transparent, var(--gold), transparent);
-         transition: width 1.5s var(--ease-premium);
+         content: ''; width: 0; height: 3px; border-radius: 2px;
+         background: linear-gradient(90deg, transparent, var(--gold), var(--accent), var(--gold), transparent);
+         transition: width 1.5s var(--ease-out);
+         box-shadow: 0 0 10px rgba(198, 167, 94, 0.3);
       }
-      .section-divider.visible::after { width: 60%; }
+      .section-divider.visible::after { width: 80%; }
 
-      /* ===== REVEAL ANIMATION ===== */
-      .reveal-item { opacity: 0; transform: translateY(40px); transition: all 0.8s var(--ease-premium); }
+      /* 
+         =========================================
+         POPUP GRADIENT ANIMATION (Faster)
+         =========================================
+      */
+      .reveal-item { 
+         opacity: 0; 
+         transform: translateY(25px); 
+         transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); 
+      }
       .reveal-item.visible { opacity: 1; transform: translateY(0); }
       
-      .gold-line { height: 2px; width: 0; background: linear-gradient(90deg, var(--accent), var(--gold)); transition: width 1.2s var(--ease-premium); margin-bottom: 30px; border-radius: 2px; }
+      /* Popup Gradient Effect for Headings */
+      .popup-gradient {
+         background: var(--grad-med);
+         -webkit-background-clip: text;
+         background-clip: text;
+         -webkit-text-fill-color: transparent;
+         background-size: 0% 100%;
+         background-repeat: no-repeat;
+         transition: background-size 0.8s var(--ease-out), opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+         opacity: 0;
+         transform: translateY(20px);
+         display: inline-block;
+      }
+      .popup-gradient.visible {
+         background-size: 100% 100%;
+         opacity: 1;
+         transform: translateY(0);
+      }
+      
+      /* High Intensity Gradient for Hero */
+      .grad-high-intensity {
+         background: var(--grad-high);
+         -webkit-background-clip: text;
+         background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }
+
+      .gold-line { height: 2px; width: 0; background: var(--grad-med); transition: width 1s var(--ease-out); margin-bottom: 30px; border-radius: 2px; }
       .visible .gold-line { width: 60px; }
 
-      /* ===== HERO SECTION ===== */
+      /* Hero Section */
       .hero {
          min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;
          padding: 120px 5% 80px; position: relative; color: white;
-         background: linear-gradient(135deg, #0b1220 0%, #1a2744 50%, #0b1220 100%);
+         background: linear-gradient(135deg, #0b1220 0%, #162238 50%, #0b1220 100%);
          background-size: 400% 400%; overflow: hidden;
          animation: bgBreath 20s ease infinite;
       }
       @keyframes bgBreath { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
       
-      /* Ambient Light Leaks */
-      .hero-light-leak {
-         position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; opacity: 0.4;
-      }
-      .leak-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(139, 30, 30, 0.2), transparent 70%); top: -200px; left: -200px; animation: floatLeak 20s infinite; }
+      .hero-light-leak { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; opacity: 0.3; }
+      .leak-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(139, 30, 30, 0.3), transparent 70%); top: -200px; left: -200px; animation: floatLeak 20s infinite; }
       .leak-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(198, 167, 94, 0.15), transparent 70%); bottom: -100px; right: -100px; animation: floatLeak 25s infinite reverse; }
       @keyframes floatLeak { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(50px, 50px) scale(1.1); } }
 
       .hero-content { max-width: 900px; position: relative; z-index: 2; }
 
-      /* Clinic Notice */
-      .clinic-notice { display: none; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; margin-top: 8px; opacity: 0; transform: translateY(-4px); transition: all 0.4s ease; }
+      .clinic-notice { display: none; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; border-radius: var(--r-full); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; margin-top: 8px; opacity: 0; transform: translateY(-4px); transition: all 0.4s ease; }
       .clinic-notice.show { display: flex; opacity: 1; transform: translateY(0); }
       .status-dot { width: 8px; height: 8px; border-radius: 50%; }
       .status-dot.green { background: #2E7D32; box-shadow: 0 0 8px #2E7D32; }
       .status-dot.red { background: #B00020; box-shadow: 0 0 8px #B00020; }
 
-      /* Hero Title Colors */
       .hero h1 { 
          font-size: clamp(3rem, 7vw, 5rem); line-height: 1.1; margin-bottom: 24px;
          position: relative;
@@ -201,80 +271,71 @@
       }
       @keyframes textFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-      /* "Expert" - White */
       .hero h1 .t-white { color: #fff; text-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-
-      /* "General Physician" - Gold Gradient Animated */
       .hero h1 .t-gold {
          font-style: normal;
-         background: linear-gradient(90deg, #c6a75e, #ffeaa7, #c6a75e);
+         background: var(--grad-high);
          background-size: 200% auto;
          -webkit-background-clip: text;
          background-clip: text;
          -webkit-text-fill-color: transparent;
          animation: shineText 3s linear infinite;
-         text-shadow: none;
-         filter: drop-shadow(0 0 15px rgba(198, 167, 94, 0.4));
       }
       @keyframes shineText { to { background-position: 200% center; } }
-
-      /* "& Care" - Maroon/Red */
-      .hero h1 .t-accent {
-          font-style: normal;
-          color: #e05555;
-          text-shadow: 0 0 20px rgba(139, 30, 30, 0.4);
-      }
+      .hero h1 .t-accent { font-style: normal; color: #e05555; text-shadow: 0 0 20px rgba(139, 30, 30, 0.4); }
       
-      .hero-desc { font-size: 1.1rem; opacity: 0.9; margin-bottom: 40px; font-family: 'Inter', sans-serif; line-height: 1.8; }
-
+      .hero-desc { font-size: 1.1rem; opacity: 0.9; margin-bottom: 40px; line-height: 1.8; max-width: 700px; margin-left: auto; margin-right: auto; }
       .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
 
-      /* ===== BUTTONS ===== */
-      .btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 36px; border-radius: var(--radius); font-weight: 500; font-size: 0.95rem; text-decoration: none; border: none; cursor: none; font-family: 'Inter', sans-serif; position: relative; overflow: hidden; z-index: 1; transition: all var(--duration-fast) var(--ease-premium); }
+      /* Buttons */
+      .btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 36px; border-radius: var(--r-md); font-weight: 500; font-size: 0.95rem; text-decoration: none; border: none; cursor: none; font-family: 'DM Sans', sans-serif; position: relative; overflow: hidden; z-index: 1; transition: all var(--t-fast) var(--ease-out); }
       .btn-primary { background: var(--accent); color: white; box-shadow: 0 4px 0 #6a1515, 0 10px 20px rgba(139, 30, 30, 0.2); }
       .btn-primary.glow { box-shadow: 0 4px 0 #6a1515, 0 0 30px rgba(139, 30, 30, 0.6); }
       .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #6a1515, 0 15px 30px rgba(139, 30, 30, 0.3); }
       .btn-primary:active { transform: translateY(2px) scale(0.98); box-shadow: 0 1px 0 #6a1515; }
       .btn-secondary { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px); }
       .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); color: var(--gold); }
-      .btn i { transition: transform var(--duration-normal); width: 18px; height: 18px; }
+      .btn i { transition: transform var(--t-normal); width: 18px; height: 18px; }
       .btn:hover i { transform: translateX(3px); }
       .ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4); transform: scale(0); animation: ripple-effect 0.6s linear; pointer-events: none; }
       @keyframes ripple-effect { to { transform: scale(4); opacity: 0; } }
       .magnetic-wrap { display: inline-block; }
 
-      /* ===== SECTIONS ===== */
-      .section-padding { padding: clamp(60px, 8vw, 100px) 5%; position: relative; z-index: 1; }
+      /* Sections */
+      .section-padding { padding: 80px 5%; position: relative; z-index: 1; }
       .section-alt-bg { background: var(--bg-alt); }
       .container { max-width: 1200px; margin: 0 auto; }
       
       .section-label { font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px; font-weight: 600; display: block; }
-      .section-title { font-size: clamp(2.2rem, 5vw, 3rem); color: var(--text); margin-bottom: 16px; position: relative; display: inline-block; }
-      .section-title::after { content: ""; position: absolute; left: 0; bottom: -8px; width: 50px; height: 3px; background: var(--gold); transition: width 1s var(--ease-premium); border-radius: 2px; }
+      .section-title { font-size: clamp(2.2rem, 5vw, 3rem); margin-bottom: 16px; position: relative; display: inline-block; }
+      .section-title::after { content: ""; position: absolute; left: 0; bottom: -8px; width: 50px; height: 3px; background: var(--gold); transition: width 1s var(--ease-out); border-radius: 2px; }
       .visible .section-title::after { width: 100%; }
 
-      /* ===== ABOUT ===== */
+      /* About */
       .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-      .about-content h2 { margin-bottom: 20px; }
-      .about-content p { color: var(--muted); margin-bottom: 20px; font-size: 1.05rem; line-height: 1.85; }
       .about-quote { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--accent); font-style: italic; margin-top: 30px; padding-left: 20px; border-left: 3px solid var(--gold); }
-      .about-image-wrap { position: relative; overflow: hidden; border-radius: var(--radius-lg); min-height: 400px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%); border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
-      .about-image { width: 65%; max-width: 350px; transition: transform 0.8s var(--ease-premium); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05)); }
+      .about-image-wrap { position: relative; overflow: hidden; border-radius: var(--r-lg); min-height: 400px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%); box-shadow: 0 30px 60px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+      .about-image-wrap::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: left 0.8s ease; z-index: 2; }
+      .about-image-wrap:hover::before { left: 150%; }
+      .about-image { width: 65%; max-width: 350px; transition: transform 0.8s var(--ease-out); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05)); }
       .about-image-wrap:hover .about-image { transform: scale(1.05) rotate(2deg); }
 
-      /* ===== CARDS (Enhanced 3D) ===== */
+      /* Services */
       .grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
       .premium-card {
-         background: var(--card); padding: 32px; border-radius: var(--radius-lg);
-         position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.04); cursor: none;
+         background: var(--card); padding: 32px; border-radius: var(--r-lg);
+         position: relative; overflow: hidden; border: 1px solid var(--border); cursor: none;
          transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; transform-style: preserve-3d;
-         box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+         box-shadow: 0 10px 30px rgba(0,0,0,0.02);
       }
-      .premium-card::before { content: ''; position: absolute; top: 0; left: -150%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s; z-index: 1; }
-      .premium-card:hover::before { left: 150%; }
-
-      .service-icon { width: 56px; height: 56px; background: linear-gradient(135deg, rgba(139, 30, 30, 0.06), rgba(139, 30, 30, 0.01)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: var(--ease-premium); }
-      .service-icon i { width: 28px; height: 28px; stroke: var(--accent); transition: var(--ease-premium); }
+      .premium-card::before { 
+         content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+         background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06) 0%, transparent 50%); 
+         opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1;
+      }
+      .premium-card:hover::before { opacity: 1; }
+      .service-icon { width: 56px; height: 56px; background: linear-gradient(135deg, rgba(139, 30, 30, 0.06), rgba(139, 30, 30, 0.01)); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: var(--ease-out); }
+      .service-icon i { width: 28px; height: 28px; stroke: var(--accent); transition: var(--ease-out); }
       .premium-card:hover .service-icon { background: var(--accent); transform: scale(1.1); }
       .premium-card:hover .service-icon i { stroke: white; }
       .premium-card h3 { font-size: 1.4rem; margin-bottom: 16px; color: var(--text); position: relative; z-index: 2; }
@@ -282,46 +343,52 @@
       .premium-card li { padding: 6px 0; font-size: 0.9rem; color: var(--muted); display: flex; align-items: center; gap: 10px; }
       .check-icon { width: 14px; height: 14px; stroke: var(--gold); flex-shrink: 0; }
 
-      /* ===== TRUST ===== */
+      /* Trust */
       .trust { background: var(--primary); color: white; text-align: center; padding: 100px 5%; position: relative; overflow: hidden; }
       .trust h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 20px; color: white; }
       .trust-features { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-top: 60px; }
-      .trust-icon-box { width: 70px; height: 70px; background: rgba(255,255,255,0.03); border: 1px solid rgba(198, 167, 94, 0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; transition: all var(--duration-fast) var(--ease-premium); }
-      .trust-item:hover .trust-icon-box { background: var(--gold); border-color: var(--gold); transform: translateY(-2px) rotate(5deg); }
-      .trust-icon-box i { width: 28px; height: 28px; stroke: var(--gold); transition: var(--ease-premium); }
+      .trust-icon-box { width: 70px; height: 70px; background: rgba(255,255,255,0.03); border: 1px solid rgba(198, 167, 94, 0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; transition: all var(--t-fast) var(--ease-out); }
+      .trust-item:nth-child(1):hover .trust-icon-box { transform: translateY(-2px) rotate(5deg); background: var(--gold); border-color: var(--gold); }
+      .trust-item:nth-child(2):hover .trust-icon-box { transform: translateY(-2px) rotate(-5deg); background: var(--gold); border-color: var(--gold); }
+      .trust-item:nth-child(3):hover .trust-icon-box { transform: translateY(-2px) rotate(3deg); background: var(--gold); border-color: var(--gold); }
+      .trust-icon-box i { width: 28px; height: 28px; stroke: var(--gold); transition: var(--ease-out); }
       .trust-item:hover .trust-icon-box i { stroke: var(--primary); }
-      .trust-item h3 { font-size: 1.1rem; font-weight: 500; font-family: 'Inter', sans-serif; }
+      .trust-item h3 { font-size: 1.1rem; font-weight: 500; font-family: 'DM Sans', sans-serif; }
       .wave-divider { position: absolute; top: 0; left: 0; width: 100%; overflow: hidden; line-height: 0; transform: translateY(-99%); }
       .wave-divider svg { display: block; width: calc(100% + 1.3px); height: 60px; }
       .wave-divider .shape-fill { fill: var(--bg); }
 
-      /* ===== DOCTOR ===== */
-      .doc-section { background: var(--card); border-radius: 24px; padding: 60px; display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; box-shadow: 0 30px 80px rgba(10, 15, 30, 0.06); position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.02); }
-      .credential-badge { position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; background: linear-gradient(135deg, var(--gold), #a88a3b); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1); animation: badgeFloat 3s ease-in-out infinite; z-index: 10; }
-      .credential-badge i { width: 32px; height: 32px; stroke: white; }
+      /* Doctor */
+      .doc-section { background: var(--card); border-radius: var(--r-lg); padding: 60px; display: grid; grid-template-columns: 300px 1fr; gap: 60px; align-items: center; box-shadow: 0 30px 80px rgba(10, 15, 30, 0.04); position: relative; overflow: hidden; border: 1px solid var(--border); }
+      .credential-badge { position: absolute; top: 20px; right: 20px; width: 50px; height: 50px; background: var(--grad-med); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); animation: badgeFloat 3s ease-in-out infinite; z-index: 10; }
+      .credential-badge i { width: 24px; height: 24px; stroke: white; }
       @keyframes badgeFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-5px) rotate(5deg); } }
+      
       .doc-image { position: relative; z-index: 1; overflow: hidden; border-radius: 16px; }
-      .doc-image img { width: 100%; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transition: transform 0.8s var(--ease-premium); }
+      .doc-image img { width: 100%; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transition: transform 0.8s var(--ease-out); }
       .doc-image:hover img { transform: scale(1.02); }
       .doc-info { position: relative; z-index: 1; }
-      .doc-title { color: var(--accent); font-weight: 500; font-size: 0.95rem; margin-bottom: 16px; font-family: 'Inter', sans-serif; display: block; letter-spacing: 0.05em; }
+      .doc-title { color: var(--accent); font-weight: 500; font-size: 0.95rem; margin-bottom: 16px; font-family: 'DM Sans', sans-serif; display: block; letter-spacing: 0.05em; text-transform: uppercase; }
       .doc-name { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 6px; }
-      .doc-subtitle { font-size: 1rem; color: var(--muted); font-family: 'Inter', sans-serif; font-weight: 400; margin-bottom: 24px; font-style: italic; }
-      .doc-bio { color: var(--muted); line-height: 1.8; margin-bottom: 28px; font-family: 'Inter', sans-serif; font-size: 1rem; }
+      .doc-subtitle { font-size: 1rem; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 400; margin-bottom: 24px; font-style: italic; }
+      .doc-bio { color: var(--muted); line-height: 1.8; margin-bottom: 28px; font-family: 'DM Sans', sans-serif; font-size: 1.05rem; letter-spacing: -0.01em; }
       .doc-credentials { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
-      .credential { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(198, 167, 94, 0.08); border-radius: 50px; font-size: 0.85rem; font-weight: 500; color: var(--text); border: 1px solid rgba(198, 167, 94, 0.15); }
-      .credential i { width: 14px; height: 14px; stroke: var(--gold); }
+      .credential { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(198, 167, 94, 0.08); border-radius: var(--r-full); font-size: 0.85rem; font-weight: 500; color: var(--text); border: 1px solid rgba(198, 167, 94, 0.15); transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+      .credential:hover { background: var(--gold); color: var(--primary); }
+      .credential i { width: 14px; height: 14px; stroke: var(--gold); transition: stroke 0.2s; }
+      .credential:hover i { stroke: var(--primary); }
 
-      /* ===== CONTACT ===== */
-      .contact-premium-grid { display: grid; grid-template-columns: 1fr 1.5fr; min-height: 550px; background: var(--card); border-radius: 24px; overflow: hidden; box-shadow: 0 30px 80px rgba(10, 15, 30, 0.06); border: 1px solid rgba(0,0,0,0.02); }
+      /* Contact */
+      .contact-premium-grid { display: grid; grid-template-columns: 1fr 1.5fr; min-height: 550px; background: var(--card); border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 30px 80px rgba(10, 15, 30, 0.04); border: 1px solid var(--border); }
       .contact-info-panel { background: var(--primary); color: white; padding: 50px; display: flex; flex-direction: column; justify-content: space-between; }
       .contact-header h3 { font-size: clamp(2rem, 4vw, 2.5rem); color: white; margin-bottom: 10px; }
       .contact-details { margin: 30px 0; }
       .detail-item { margin-bottom: 25px; }
-      .detail-label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; display: block; }
+      .detail-label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; display: block; font-family: 'DM Sans', sans-serif; }
       .detail-text { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: white; line-height: 1.4; }
+      .timings-text { font-family: 'DM Sans', sans-serif; font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.9; letter-spacing: -0.01em; display: block; margin-top: 8px; }
       .contact-actions-vertical { display: flex; flex-direction: column; gap: 12px; }
-      .btn-contact { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 600; color: white; font-size: 0.95rem; font-family: 'Inter', sans-serif; transition: all var(--duration-fast) var(--ease-premium); cursor: none; }
+      .btn-contact { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 600; color: white; font-size: 0.95rem; font-family: 'DM Sans', sans-serif; transition: all var(--t-fast) var(--ease-out); cursor: none; }
       .btn-contact-call { background: var(--accent); border: none; box-shadow: 0 5px 15px rgba(139, 30, 30, 0.2); }
       .btn-contact-call:hover { box-shadow: 0 8px 20px rgba(139, 30, 30, 0.3); transform: translateY(-1px); }
       .btn-contact-whatsapp { background: transparent; border: 1px solid rgba(255,255,255,0.15); position: relative; }
@@ -329,60 +396,66 @@
       @keyframes waPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 0; } }
       .btn-contact-whatsapp:hover { background: rgba(255,255,255,0.05); border-color: #25D366; }
       .btn-contact i { width: 18px; height: 18px; }
+      
       .contact-map-panel { position: relative; background: #e0e0e0; }
-      .map-iframe { width: 100%; height: 100%; border: none; filter: grayscale(100%) contrast(1.1); transition: filter 0.5s ease; }
-      .contact-map-panel:hover .map-iframe { filter: grayscale(0%); }
-      .map-overlay-badge { position: absolute; bottom: 20px; right: 20px; background: var(--card); padding: 12px 20px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); transition: all var(--duration-fast) var(--ease-premium); border: 1px solid rgba(0,0,0,0.05); }
+      .map-iframe { width: 100%; height: 100%; border: none; filter: grayscale(100%) contrast(1.1); transition: filter 0.5s ease, transform 0.5s ease; transform: scale(1.01); }
+      [data-theme="dark"] .map-iframe { filter: invert(90%) hue-rotate(180deg) grayscale(20%) contrast(1.1); }
+      .contact-map-panel:hover .map-iframe { filter: grayscale(0%); transform: scale(1); }
+      [data-theme="dark"] .contact-map-panel:hover .map-iframe { filter: invert(90%) hue-rotate(180deg) grayscale(0%) contrast(1); }
+      
+      .map-overlay-badge { position: absolute; bottom: 20px; right: 20px; background: var(--card); padding: 12px 20px; border-radius: var(--r-full); box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); transition: all var(--t-fast) var(--ease-out); border: 1px solid var(--border); font-family: 'DM Sans', sans-serif; }
       .map-overlay-badge:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
       .map-overlay-badge i { width: 16px; height: 16px; stroke: var(--gold); }
 
-      /* ===== FOOTER & SIGNATURE ANIMATION ===== */
-      footer { text-align: center; padding: 50px 5%; color: var(--muted); font-size: 0.9rem; border-top: 1px solid rgba(0,0,0,0.03); font-family: 'Inter', sans-serif; background: var(--bg); position: relative; overflow: hidden; }
-      
-      .designer-credit {
-         margin-top: 20px; font-family: 'Pinyon Script', cursive; font-size: 1.6rem; color: var(--gold);
-         opacity: 0;
-         animation: signatureReveal 2s ease forwards;
-         animation-delay: 0.5s;
-         position: relative;
-         display: inline-block;
-         text-shadow: 0 0 0px rgba(198, 167, 94, 0);
-      }
-      /* The "Handwriting" Reveal Animation */
-      @keyframes signatureReveal {
-         0% { opacity: 0; transform: translateY(20px); letter-spacing: 0.5em; filter: blur(8px); text-shadow: 0 0 0px rgba(198, 167, 94, 0); }
-         50% { opacity: 0.5; filter: blur(2px); text-shadow: 0 0 10px rgba(198, 167, 94, 0.2); }
-         100% { opacity: 1; transform: translateY(0); letter-spacing: normal; filter: blur(0); text-shadow: 0 0 15px rgba(198, 167, 94, 0.4); }
-      }
+      /* Footer */
+      footer { text-align: center; padding: 60px 5%; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); font-family: 'DM Sans', sans-serif; background: var(--bg); position: relative; }
+      .footer-copyright { display: block; margin-bottom: 30px; opacity: 0.7; letter-spacing: 0.05em; }
+      .designer-credit { display: inline-block; margin-top: 20px; font-family: 'Pinyon Script', cursive; font-size: 1.4rem; color: transparent; background: var(--grad-med); -webkit-background-clip: text; background-clip: text; background-size: 200% auto; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3), 0 -1px 1px rgba(0, 0, 0, 0.2); filter: drop-shadow(0 2px 4px rgba(139, 30, 30, 0.2)); opacity: 0; transform: translateY(20px); animation: signatureReveal 2s ease forwards, shimmerText 6s linear infinite; animation-delay: 0.5s, 2.5s; }
+      @keyframes signatureReveal { 0% { opacity: 0; transform: translateY(20px); letter-spacing: 0.5em; filter: blur(8px); } 50% { opacity: 0.5; filter: blur(2px); } 100% { opacity: 1; transform: translateY(0); letter-spacing: 0.02em; filter: drop-shadow(0 2px 4px rgba(139, 30, 30, 0.2)); } }
+      @keyframes shimmerText { to { background-position: 200% center; } }
 
-      /* ===== PARTICLES ===== */
+      /* Particles */
       .particle { position: absolute; width: 3px; height: 3px; background: var(--gold); border-radius: 50%; pointer-events: none; opacity: 0; animation: particleFloat linear infinite; }
       @keyframes particleFloat { 0% { transform: translateY(0) translateX(0); opacity: 0; } 20% { opacity: 0.8; } 100% { transform: translateY(-100vh) translateX(20px); opacity: 0; } }
 
-      /* ===== MOBILE BAR ===== */
+      /* Mobile Bar */
       .smart-bar { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--primary); padding: 12px 16px; z-index: 9999; border-top: 1px solid rgba(255,255,255,0.05); }
       .smart-bar-inner { display: flex; gap: 10px; width: 100%; }
-      .smart-bar a { flex: 1; background: rgba(255,255,255,0.05); color: white; text-decoration: none; padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; font-size: 14px; transition: background var(--duration-fast); }
+      .smart-bar a { flex: 1; background: rgba(255,255,255,0.05); color: white; text-decoration: none; padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; font-size: 14px; transition: background var(--t-fast); font-family: 'DM Sans', sans-serif; }
       .smart-bar a.primary { background: var(--accent); }
       .smart-bar a i { width: 18px; height: 18px; }
 
-      /* ===== CONTROLS ===== */
-      #darkToggle { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: none; border: none; z-index: 1001; background: var(--gold); color: white; box-shadow: 0 5px 15px rgba(198, 167, 94, 0.3); transition: transform var(--duration-normal); }
-      #darkToggle:hover { transform: translateY(-3px); }
+      /* Controls */
+      #darkToggle { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: none; border: none; z-index: 1001; background: var(--gold); color: white; box-shadow: 0 5px 15px rgba(198, 167, 94, 0.3); transition: transform var(--t-normal); }
+      #darkToggle:hover { transform: translateY(-3px) rotate(15deg); }
       #darkToggle i { width: 22px; height: 22px; pointer-events: none; }
-      .scroll-top-btn { position: fixed; bottom: 90px; right: 30px; width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: none; transition: all var(--duration-normal); background: var(--card); color: var(--text); box-shadow: 0 10px 30px rgba(0,0,0,0.05); z-index: 1001; opacity: 0; visibility: hidden; transform: translateY(20px); }
+      .scroll-top-btn { position: fixed; bottom: 90px; right: 30px; width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: none; transition: all var(--t-normal); background: var(--card); color: var(--text); box-shadow: 0 10px 30px rgba(0,0,0,0.05); z-index: 1001; opacity: 0; visibility: hidden; transform: translateY(20px); }
       .scroll-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
       .scroll-top-btn:hover { transform: translateY(-3px); }
-      .scroll-top-btn i { width: 20px; height: 20px; pointer-events: none; }
 
+      /* Mobile Focus Mode */
       @media (max-width: 768px) {
          .smart-bar { display: block; }
-         #darkToggle { bottom: 90px; right: 20px; width: 45px; height: 45px; cursor: auto; }
+         #darkToggle { bottom: 90px; right: 20px; cursor: auto; }
          .scroll-top-btn { bottom: 150px; right: 20px; cursor: auto; }
-         .nav-dots { display: none; } .nav-links { display: none; } .nav-actions .lang-btn { display: none; }
-         .about-grid { grid-template-columns: 1fr; gap: 40px; } .about-image-wrap { min-height: 300px; } .about-image { width: 60%; }
-         .doc-section { grid-template-columns: 1fr; padding: 30px; gap: 30px; text-align: center; } .doc-image { max-width: 250px; margin: 0 auto; } .credential-badge { width: 50px; height: 50px; top: 10px; right: 10px; } .doc-credentials { justify-content: center; }
-         .contact-premium-grid { grid-template-columns: 1fr; min-height: auto; } .contact-info-panel { padding: 30px; } .contact-map-panel { height: 300px; } .grid-6 { grid-template-columns: 1fr; gap: 16px; }
+         .nav-dots, .nav-links, .nav-actions .lang-btn { display: none; }
+         .hero-light-leak { display: none; }
+         .particle { display: none; }
+         .hero { background-attachment: scroll; }
+         .section-padding { padding: 80px 6%; }
+         p { font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.8em; }
+         .hero-desc { font-size: 1.1rem; }
+         .about-grid { grid-template-columns: 1fr; } 
+         .doc-section { grid-template-columns: 1fr; padding: 40px 24px; text-align: center; }
+         .doc-image { max-width: 200px; margin: 0 auto 20px auto; }
+         .doc-credentials { justify-content: center; }
+         .credential-badge { width: 40px; height: 40px; top: 15px; right: 15px; }
+         .credential-badge i { width: 20px; height: 20px; }
+         .contact-premium-grid { grid-template-columns: 1fr; }
+         .contact-info-panel { padding: 40px 24px; }
+         .contact-map-panel { height: 250px; }
+         .grid-6 { grid-template-columns: 1fr; gap: 20px; }
+         .premium-card { padding: 24px; }
       }
    </style>
 </head>
@@ -402,7 +475,6 @@
       <p data-en="Click or Scroll to enter" data-hi="प्रवेश के लिए क्लिक करें">Click or Scroll to enter</p>
    </div>
 
-   <!-- Nav Dots -->
    <div class="nav-dots" id="navDots">
       <div class="nav-dot active" data-section="hero"></div>
       <div class="nav-dot" data-section="about"></div>
@@ -412,7 +484,6 @@
       <div class="nav-dot" data-section="contact"></div>
    </div>
 
-   <!-- Nav -->
    <nav id="navbar">
       <a href="#" class="logo-box">
          <img src="logo.png" alt="AL-Shifa Clinic">
@@ -431,24 +502,16 @@
 
    <!-- Hero -->
    <section class="hero" id="hero">
-      <!-- Light Leaks -->
       <div class="hero-light-leak leak-1"></div>
       <div class="hero-light-leak leak-2"></div>
-      <!-- Particles Container -->
       <div id="particles"></div>
-
       <div class="hero-content">
          <div id="clinicNotice" class="clinic-notice">
             <span id="statusDot" class="status-dot"></span>
             <span id="statusText"></span>
          </div>
-
-         <h1 class="reveal-item" id="hero-title">Expert <em>General Physician</em> &amp; Care</h1>
-         
-         <p class="hero-desc reveal-item" id="hero-desc" data-en="Ethical diagnosis. Structured treatment. Patient-focused healthcare." data-hi="नैतिक निदान। व्यवस्थित उपचार। रोगी-केंद्रित स्वास्थ्य सेवा।">
-            Ethical diagnosis. Structured treatment. Patient-focused healthcare.
-         </p>
-
+         <h1 class="reveal-item" id="hero-title">Expert <em class="t-gold">General Physician</em> &amp; Care</h1>
+         <p class="hero-desc reveal-item" id="hero-desc" data-en="Ethical diagnosis. Structured treatment. Patient-focused healthcare." data-hi="नैतिक निदान। व्यवस्थित उपचार। रोगी-केंद्रित स्वास्थ्य सेवा।">Ethical diagnosis. Structured treatment. Patient-focused healthcare.</p>
          <div class="hero-actions reveal-item">
             <div class="magnetic-wrap"><a href="#contact" class="btn btn-primary" id="heroCta"><span data-en="Book Appointment" data-hi="अपॉइंटमेंट बुक करें">Book Appointment</span><i data-lucide="arrow-right"></i></a></div>
             <div class="magnetic-wrap"><a href="#services" class="btn btn-secondary"><span data-en="Our Services" data-hi="हमारी सेवाएं">Our Services</span><i data-lucide="arrow-right"></i></a></div>
@@ -456,29 +519,25 @@
       </div>
    </section>
 
-   <!-- Divider -->
    <div class="section-divider"></div>
 
-   <!-- About Section -->
+   <!-- About -->
    <section id="about" class="section-padding section-alt-bg">
       <div class="container">
          <div class="about-grid">
             <div class="about-content">
                <span class="section-label reveal-item" data-en="About Us" data-hi="हमारे बारे में">About Us</span>
-               <h2 class="section-title reveal-item" data-en="About AL-Shifa Clinic" data-hi="अल-शिफा क्लिनिक के बारे में">About AL-Shifa Clinic</h2>
+               <h2 class="section-title reveal-item popup-gradient" data-default="About AL-Shifa Clinic">About AL-Shifa Clinic</h2>
                <div class="gold-line reveal-item"></div>
-               <p class="reveal-item" data-en="AL Shifa Clinic stands as a center of trusted and structured medical care in Mohammadabad Gohna, dedicated to delivering evidence-based treatment with clarity and integrity." data-hi="अल शिफा क्लिनिक मोहम्मदाबाद गोहना में एक विश्वसनीय और संरचित चिकित्सा देखभाल का केंद्र है, जो स्पष्टता और अखंडता के साथ साक्ष्य-आधारित उपचार प्रदान करने के लिए समर्पित है।">AL Shifa Clinic stands as a center of trusted and structured medical care in Mohammadabad Gohna, dedicated to delivering evidence-based treatment with clarity and integrity.</p>
+               <p class="reveal-item" data-en="AL Shifa Clinic stands as a center of trusted and structured medical care in Mohammadabad Gohna." data-hi="अल शिफा क्लिनिक मोहम्मदाबाद गोहना में एक विश्वसनीय और संरचित चिकित्सा देखभाल का केंद्र है।">AL Shifa Clinic stands as a center of trusted and structured medical care in Mohammadabad Gohna.</p>
                <p class="reveal-item" data-en="We specialize in Gastroenterology, Respiratory Medicine, Internal Medicine and comprehensive chronic disease management." data-hi="हम गैस्ट्रोएंटरोलॉजी, श्वसन चिकित्सा, आंतरिक चिकित्सा और व्यापक पुरानी बीमारी प्रबंधन में विशेषज्ञता रखते हैं।">We specialize in Gastroenterology, Respiratory Medicine, Internal Medicine and comprehensive chronic disease management.</p>
-               <div class="about-quote reveal-item" data-en="Healing begins with trust, and trust begins with ethical care." data-hi="इलाज की शुरुआत विश्वास से होती है, और विश्वास की शुरुआत नैतिक देखभाल से होती है।">"Healing begins with trust, and trust begins with ethical care."</div>
+               <div class="about-quote reveal-item" data-en="Healing begins with trust." data-hi="इलाज की शुरुआत विश्वास से होती है।">"Healing begins with trust."</div>
             </div>
-            <div class="about-image-wrap reveal-item">
-               <img src="logo.png" alt="AL-Shifa Clinic Logo" class="about-image">
-            </div>
+            <div class="about-image-wrap reveal-item"><img src="logo.png" alt="AL-Shifa Clinic Logo" class="about-image"></div>
          </div>
       </div>
    </section>
 
-   <!-- Divider -->
    <div class="section-divider"></div>
 
    <!-- Services -->
@@ -486,7 +545,7 @@
       <div class="container">
          <div style="text-align: center; margin-bottom: 60px;">
             <span class="section-label reveal-item" data-en="Our Expertise" data-hi="हमारी विशेषज्ञता">Our Expertise</span>
-            <h2 class="section-title reveal-item" data-en="Specialized Treatment Areas" data-hi="विशेषज्ञ उपचार क्षेत्र">Specialized Treatment Areas</h2>
+            <h2 class="section-title reveal-item popup-gradient" data-default="Specialized Treatment Areas">Specialized Treatment Areas</h2>
             <div class="gold-line reveal-item" style="display: inline-block;"></div>
          </div>
          <div class="grid-6">
@@ -500,12 +559,11 @@
       </div>
    </section>
 
-   <!-- Trust -->
    <section class="trust" id="trust">
       <div class="wave-divider"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path></svg></div>
       <div class="container">
          <span class="section-label reveal-item" style="color: var(--gold);" data-en="Why Choose Us" data-hi="हमें क्यों चुनें">Why Choose Us</span>
-         <h2 class="reveal-item" data-en="A Trusted Name in Clinical Care" data-hi="नैदानिक देखभाल में विश्वसनीय नाम">A Trusted Name in Clinical Care</h2>
+         <h2 class="reveal-item popup-gradient grad-high-intensity" data-default="A Trusted Name in Clinical Care">A Trusted Name in Clinical Care</h2>
          <div class="trust-features">
             <div class="trust-item reveal-item"><div class="trust-icon-box"><i data-lucide="award"></i></div><h3 data-en="Qualified Specialist" data-hi="योग्य विशेषज्ञ">Qualified Specialist</h3></div>
             <div class="trust-item reveal-item"><div class="trust-icon-box"><i data-lucide="clipboard-check"></i></div><h3 data-en="Structured Diagnosis" data-hi="संरचित निदान">Structured Diagnosis</h3></div>
@@ -514,7 +572,6 @@
       </div>
    </section>
 
-   <!-- Divider -->
    <div class="section-divider"></div>
 
    <!-- Doctor -->
@@ -525,10 +582,10 @@
             <div class="doc-image reveal-item"><img src="Doctor.jpeg" alt="Dr. Mohammad Arif"></div>
             <div class="doc-info">
                <span class="section-label reveal-item" data-en="Meet Your Doctor" data-hi="अपने डॉक्टर से मिलें">Meet Your Doctor</span>
-               <h2 class="doc-name reveal-item">Dr. Mohammad Arif</h2>
+               <h2 class="doc-name reveal-item popup-gradient" data-default="Dr. Mohammad Arif">Dr. Mohammad Arif</h2>
                <p class="doc-subtitle reveal-item" data-en="(Managing Director)" data-hi="(प्रबंध निदेशक)">(Managing Director)</p>
                <span class="doc-title reveal-item" data-en="General Physician & Specialist" data-hi="जनरल फिजिशियन एवं विशेषज्ञ">General Physician & Specialist</span>
-               <p class="doc-bio reveal-item" data-en="Dr. Mohammad Arif is a certified medical professional specializing in Internal Medicine. He focuses on structured diagnosis, patient-centered treatment, and long-term health management." data-hi="डॉ. मोहम्मद आरिफ आंतरिक चिकित्सा में विशेषज्ञ एक प्रमाणित चिकित्सा पेशेवर हैं। वे संरचित निदान, रोगी-केंद्रित उपचार और दीर्घकालिक स्वास्थ्य प्रबंधन पर ध्यान केंद्रित करते हैं।">Dr. Mohammad Arif is a certified medical professional specializing in Internal Medicine. He focuses on structured diagnosis, patient-centered treatment, and long-term health management.</p>
+               <p class="doc-bio reveal-item" data-en="Dr. Mohammad Arif is a certified medical professional specializing in Internal Medicine." data-hi="डॉ. मोहम्मद आरिफ आंतरिक चिकित्सा में विशेषज्ञ एक प्रमाणित चिकित्सा पेशेवर हैं।">Dr. Mohammad Arif is a certified medical professional specializing in Internal Medicine.</p>
                <div class="doc-credentials reveal-item"><span class="credential"><i data-lucide="graduation-cap"></i> M.Sc.</span><span class="credential"><i data-lucide="graduation-cap"></i> B.U.M.S.</span><span class="credential"><i data-lucide="badge-check"></i> CFAID</span><span class="credential"><i data-lucide="award"></i> CHBHC</span></div>
                <div class="magnetic-wrap"><a href="#contact" class="btn btn-primary reveal-item" data-en="Schedule Consultation" data-hi="परामर्श निर्धारित करें">Schedule Consultation</a></div>
             </div>
@@ -536,18 +593,23 @@
       </div>
    </section>
 
-   <!-- Divider -->
    <div class="section-divider"></div>
 
-   <!-- CONTACT SECTION -->
+   <!-- Contact -->
    <section id="contact" class="section-padding section-alt-bg">
       <div class="container">
          <div class="contact-premium-grid reveal-item">
             <div class="contact-info-panel">
                <div class="contact-header"><h3 data-en="Get in Touch" data-hi="संपर्क करें">Get in Touch</h3></div>
                <div class="contact-details">
-                  <div class="detail-item"><span class="detail-label" data-en="Location" data-hi="स्थान">Location</span><span class="detail-text">Near UBI, Station Road<br>Mohammadabad Gohna, Mau</span></div>
-                  <div class="detail-item"><span class="detail-label" data-en="Hours" data-hi="समय">Hours</span><span class="detail-text" style="font-size: 1.1rem; font-family: 'Inter', sans-serif;">Mon-Thu, Sat: 10:00 – 19:00<br>Fri: 10:00 – 12:30 &amp; 16:00 – 19:00<br>Sunday: Closed</span></div>
+                  <div class="detail-item">
+                     <span class="detail-label" data-en="Location" data-hi="स्थान">Location</span>
+                     <span class="detail-text">Near UBI, Station Road<br>Mohammadabad Gohna, Mau</span>
+                  </div>
+                  <div class="detail-item">
+                     <span class="detail-label" data-en="Hours" data-hi="समय">Hours</span>
+                     <span class="timings-text">Mon-Thu, Sat: 10:00 – 19:00<br>Fri: 10:00 – 12:30 &amp; 16:00 – 19:00<br>Sunday: Closed</span>
+                  </div>
                </div>
                <div class="contact-actions-vertical">
                   <div class="magnetic-wrap" style="width: 100%;"><a href="tel:+917839475476" class="btn-contact btn-contact-call"><i data-lucide="phone-call"></i> <span data-en="Call Clinic" data-hi="क्लिनिक कॉल करें">Call Clinic</span></a></div>
@@ -560,7 +622,7 @@
    </section>
 
    <footer>
-      <span data-en="2025 AL-Shifa Clinic. All rights reserved." data-hi="2025 अल-शिफा क्लिनिक। सर्वाधिकार सुरक्षित।">2025 AL-Shifa Clinic. All rights reserved.</span>
+      <span class="footer-copyright" data-en="2026 AL-Shifa Clinic. All rights reserved." data-hi="2026 अल-शिफा क्लिनिक। सर्वाधिकार सुरक्षित।">2026 AL-Shifa Clinic. All rights reserved.</span>
       <div class="designer-credit">Designed by Mohd Azhan</div>
    </footer>
 
@@ -578,208 +640,190 @@
    <script>
       lucide.createIcons();
       (function() {
-         var leftCurtain = document.getElementById('leftCurtain');
-         var rightCurtain = document.getElementById('rightCurtain');
-         var curtainContent = document.getElementById('curtainContent');
-         var navbar = document.getElementById('navbar');
-         var darkToggle = document.getElementById('darkToggle');
-         var darkIcon = document.getElementById('darkIcon');
-         var scrollProgress = document.getElementById('scroll-progress');
-         var scrollTopBtn = document.getElementById('scrollTopBtn');
-         var navDots = document.querySelectorAll('.nav-dot');
-         var navLinks = document.querySelectorAll('.nav-link');
-         var heroSection = document.querySelector('.hero');
-         var heroTitleEl = document.getElementById('hero-title');
-         var particlesContainer = document.getElementById('particles');
+         const dom = {
+            leftCurtain: document.getElementById('leftCurtain'), rightCurtain: document.getElementById('rightCurtain'),
+            curtainContent: document.getElementById('curtainContent'), navbar: document.getElementById('navbar'),
+            darkToggle: document.getElementById('darkToggle'), darkIcon: document.getElementById('darkIcon'),
+            scrollProgress: document.getElementById('scroll-progress'), scrollTopBtn: document.getElementById('scrollTopBtn'),
+            navDots: document.querySelectorAll('.nav-dot'), navLinks: document.querySelectorAll('.nav-link'),
+            heroSection: document.querySelector('.hero'), heroTitleEl: document.getElementById('hero-title'),
+            particlesContainer: document.getElementById('particles'), cursorDot: document.querySelector('.cursor-dot'), cursorRing: document.querySelector('.cursor-ring')
+         };
+         let curtainOpened = false, currentLang = "en";
+         let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2, ringX = mouseX, ringY = mouseY;
+         const heroTextContent = { en: { part1: "Expert", part2: "General Physician", part3: "& Care" }, hi: { part1: "विशेषज्ञ", part2: "जनरल फिजिशियन", part3: "एवं देखभाल" } };
+         const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-         var curtainOpened = false;
-         var currentLang = "en";
-
-         var cursorDot = document.querySelector('.cursor-dot');
-         var cursorRing = document.querySelector('.cursor-ring');
-         var mouseX = window.innerWidth / 2;
-         var mouseY = window.innerHeight / 2;
-         var ringX = mouseX;
-         var ringY = mouseY;
-
-         var heroTextContent = { en: { part1: "Expert", part2: "General Physician", part3: "& Care" }, hi: { part1: "विशेषज्ञ", part2: "जनरल फिजिशियन", part3: "एवं देखभाल" } };
-         var isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-         // Cursor Logic
          if (!isTouchDevice) {
-            document.addEventListener('mousemove', function(e) {
-               mouseX = e.clientX; mouseY = e.clientY;
-               document.body.classList.add('mouse-moved');
-               cursorDot.style.left = mouseX + 'px';
-               cursorDot.style.top = mouseY + 'px';
-            });
-            function animateCursor() {
-               ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15;
-               cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px';
-               requestAnimationFrame(animateCursor);
-            }
+            document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; document.body.classList.add('mouse-moved'); dom.cursorDot.style.left = mouseX + 'px'; dom.cursorDot.style.top = mouseY + 'px'; });
+            function animateCursor() { ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15; dom.cursorRing.style.left = ringX + 'px'; dom.cursorRing.style.top = ringY + 'px'; requestAnimationFrame(animateCursor); }
             animateCursor();
-            var interactives = document.querySelectorAll('a, button, .premium-card, .nav-dot, .trust-icon-box, .credential');
-            interactives.forEach(function(el) {
-               el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
-               el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
-            });
+            document.querySelectorAll('a, button, .premium-card, .nav-dot, .trust-icon-box, .credential').forEach(el => { el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover')); el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover')); });
          }
+         for(let i=0; i<20; i++) { const p = document.createElement('div'); p.className = 'particle'; p.style.left = Math.random() * 100 + '%'; p.style.bottom = '-10px'; p.style.animationDuration = (Math.random() * 10 + 10) + 's'; p.style.animationDelay = (Math.random() * 5) + 's'; p.style.opacity = Math.random() * 0.5; dom.particlesContainer.appendChild(p); }
 
-         // Generate Particles
-         for(var i=0; i<25; i++) {
-            var p = document.createElement('div'); p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%'; p.style.bottom = '-10px';
-            p.style.animationDuration = (Math.random() * 10 + 10) + 's'; p.style.animationDelay = (Math.random() * 5) + 's';
-            p.style.opacity = Math.random() * 0.5;
-            particlesContainer.appendChild(p);
-         }
-
-         // Clinic Notice Logic
          function updateClinicNotice() {
-            const now = new Date();
-            const day = now.getDay();
-            const wrapper = document.getElementById("clinicNotice");
-            const textEl = document.getElementById("statusText");
-            const dot = document.getElementById("statusDot");
-            const currentTime = now.getHours() + now.getMinutes() / 60;
-
+            const now = new Date(); const day = now.getDay(); const wrapper = document.getElementById("clinicNotice"); const textEl = document.getElementById("statusText"); const dot = document.getElementById("statusDot"); const currentTime = now.getHours() + now.getMinutes() / 60;
             wrapper.classList.remove("show"); wrapper.style.display = "none"; dot.classList.remove("green", "red");
-
             if (day === 0) { wrapper.style.display = "flex"; wrapper.classList.add("show"); dot.classList.add("red"); textEl.textContent = currentLang === "hi" ? "सोमवार को सुबह 10:00 बजे खुलेगा" : "Opens Monday at 10:00 AM"; return; }
             if ([1,2,3,4,6].includes(day)) {
-               if (currentTime >= 10 && currentTime < 19) return;
-               wrapper.style.display = "flex"; wrapper.classList.add("show");
-               if (currentTime < 10) { dot.classList.add("green"); textEl.textContent = currentLang === "hi" ? "सुबह 10:00 बजे खुलेगा" : "Opens at 10:00 AM"; return; }
-               if (currentTime >= 19) { dot.classList.add("red"); if (day === 6) { textEl.textContent = currentLang === "hi" ? "सोमवार को सुबह 10:00 बजे खुलेगा" : "Opens Monday at 10:00 AM"; } else { textEl.textContent = currentLang === "hi" ? "कल सुबह 10:00 बजे खुलेगा" : "Opens Tomorrow at 10:00 AM"; } return; }
+               if (currentTime >= 10 && currentTime < 19) return; wrapper.style.display = "flex"; wrapper.classList.add("show");
+               if (currentTime < 10) { dot.classList.add("green"); textEl.textContent = currentLang === "hi" ? "सुबह 10:00 बजे खुलेगा" : "Opens at 10:00 AM"; }
+               else { dot.classList.add("red"); textEl.textContent = (day === 6) ? (currentLang === "hi" ? "सोमवार को सुबह 10:00 बजे खुलेगा" : "Opens Monday at 10:00 AM") : (currentLang === "hi" ? "कल सुबह 10:00 बजे खुलेगा" : "Opens Tomorrow at 10:00 AM"); } return;
             }
             if (day === 5) {
-               if (currentTime >= 10 && currentTime < 12.5) return;
-               wrapper.style.display = "flex"; wrapper.classList.add("show");
-               if (currentTime >= 12.5 && currentTime < 16) { dot.classList.add("green"); textEl.textContent = currentLang === "hi" ? "शाम 4:00 बजे खुलेगा" : "Opens at 4:00 PM"; return; }
-               if (currentTime >= 16 && currentTime < 19) return;
-               if (currentTime < 10) { dot.classList.add("green"); textEl.textContent = currentLang === "hi" ? "सुबह 10:00 बजे खुलेगा" : "Opens at 10:00 AM"; return; }
-               if (currentTime >= 19) { dot.classList.add("red"); textEl.textContent = currentLang === "hi" ? "कल सुबह 10:00 बजे खुलेगा" : "Opens Tomorrow at 10:00 AM"; return; }
+               if (currentTime >= 10 && currentTime < 12.5) return; if (currentTime >= 16 && currentTime < 19) return; wrapper.style.display = "flex"; wrapper.classList.add("show");
+               if (currentTime >= 12.5 && currentTime < 16) { dot.classList.add("green"); textEl.textContent = currentLang === "hi" ? "शाम 4:00 बजे खुलेगा" : "Opens at 4:00 PM"; }
+               else if (currentTime < 10) { dot.classList.add("green"); textEl.textContent = currentLang === "hi" ? "सुबह 10:00 बजे खुलेगा" : "Opens at 10:00 AM"; }
+               else { dot.classList.add("red"); textEl.textContent = currentLang === "hi" ? "कल सुबह 10:00 बजे खुलेगा" : "Opens Tomorrow at 10:00 AM"; }
             }
          }
-         updateClinicNotice();
-         setInterval(updateClinicNotice, 60000);
+         updateClinicNotice(); setInterval(updateClinicNotice, 60000);
 
-         function scrambleText(element, text, duration) {
-            var chars = "abcdefghijklmnopqrstuvwxyz"; var interval = 30; var steps = duration / interval; var count = 0;
-            var originalParts = text.split('|'); var htmlContent = '';
-            var scrambleInterval = setInterval(function() {
-               if(count >= steps) { clearInterval(scrambleInterval);
-                  // Apply classes for color styling
-                  if(originalParts.length === 3) element.innerHTML = '<span class="t-white">' + originalParts[0] + '</span> <em class="t-gold">' + originalParts[1] + '</em> <span class="t-accent">' + originalParts[2] + '</span>';
-                  else element.innerText = text; return;
-               }
-               var progress = count / steps; var result = '';
-               originalParts.forEach(function(part, index) {
-                  var scrambled = ''; for(var i=0; i<part.length; i++) { if(Math.random() < progress) scrambled += part[i]; else scrambled += chars[Math.floor(Math.random() * chars.length)]; }
-                  if(index === 1) result += '<em>' + scrambled + '</em> '; else result += scrambled + ' ';
-               });
-               element.innerHTML = result.trim(); count++;
-            }, interval);
+         /* 
+            =========================================
+            HERO TEXT ANIMATION (Faster, Popup Gradient)
+            =========================================
+         */
+         function updateHeroTitle(lang) {
+            const data = heroTextContent[lang];
+            const text = `${data.part1}|${data.part2}|${data.part3}`;
+            scrambleText(dom.heroTitleEl, text, 600);
          }
 
-         function updateHeroTitle(lang) { var data = heroTextContent[lang]; var text = data.part1 + '|' + data.part2 + '|' + data.part3; scrambleText(heroTitleEl, text, 600); }
+         function scrambleText(element, text, duration) {
+            const chars = "abcdefghijklmnopqrstuvwxyz";
+            const steps = duration / 30; let count = 0; const parts = text.split('|');
+            const interval = setInterval(() => {
+               if(count >= steps) {
+                  clearInterval(interval);
+                  // Apply HTML with classes for popup gradient effect
+                  if(parts.length === 3) 
+                     element.innerHTML = `<span class="t-white">${parts[0]}</span> <em class="t-gold">${parts[1]}</em> <span class="t-accent">${parts[2]}</span>`;
+                  else element.innerText = text;
+                  
+                  // Trigger the popup animation on the parts immediately after insert
+                  element.querySelectorAll('.t-gold, .t-accent').forEach(el => el.style.opacity = 1);
+                  return;
+               }
+               const progress = count / steps; let result = '';
+               parts.forEach((part, index) => {
+                  let scrambled = '';
+                  for(let i=0; i<part.length; i++) scrambled += Math.random() < progress ? part[i] : chars[Math.floor(Math.random() * chars.length)];
+                  result += (index === 1 ? `<em>${scrambled}</em> ` : `${scrambled} `);
+               });
+               element.innerHTML = result.trim(); count++;
+            }, 30);
+         }
          updateHeroTitle('en');
 
-         function openCurtain() { if (curtainOpened) return; curtainOpened = true; leftCurtain.classList.add('lift-left'); rightCurtain.classList.add('lift-right'); curtainContent.classList.add('fade-away'); }
-         curtainContent.addEventListener('click', openCurtain);
-         var scrollHandler = function() { if(!curtainOpened) openCurtain(); window.removeEventListener('wheel', scrollHandler); };
-         window.addEventListener('wheel', scrollHandler);
-         setTimeout(function() { if (!curtainOpened) openCurtain(); }, 4000);
+         function openCurtain() { if (curtainOpened) return; curtainOpened = true; dom.leftCurtain.classList.add('lift-left'); dom.rightCurtain.classList.add('lift-right'); dom.curtainContent.classList.add('fade-away'); }
+         dom.curtainContent.addEventListener('click', openCurtain);
+         const scrollOpen = () => { if(!curtainOpened) openCurtain(); window.removeEventListener('wheel', scrollOpen); }; window.addEventListener('wheel', scrollOpen);
+         setTimeout(() => { if (!curtainOpened) openCurtain(); }, 4000);
 
-         window.addEventListener('scroll', function() {
-            var scrollY = window.scrollY; var docHeight = document.body.scrollHeight - window.innerHeight;
-            var progress = (scrollY / docHeight) * 100;
-            if (scrollY > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
-            scrollProgress.style.width = progress + "%";
-            if (progress > 35) scrollTopBtn.classList.add('visible'); else scrollTopBtn.classList.remove('visible');
-            if(heroSection) { var heroHeight = heroSection.offsetHeight; var scrollPercent = Math.min(scrollY / heroHeight, 1); heroSection.style.opacity = 1 - (scrollPercent * 0.4); }
+         window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY; const docHeight = document.body.scrollHeight - window.innerHeight;
+            const progress = (scrollY / docHeight) * 100;
+            if (scrollY > 50) dom.navbar.classList.add('scrolled'); else dom.navbar.classList.remove('scrolled');
+            dom.scrollProgress.style.width = progress + "%";
+            if (progress > 35) dom.scrollTopBtn.classList.add('visible'); else dom.scrollTopBtn.classList.remove('visible');
+            if(dom.heroSection) { const scrollPercent = Math.min(scrollY / dom.heroSection.offsetHeight, 1); dom.heroSection.style.opacity = 1 - (scrollPercent * 0.4); }
          });
-         scrollTopBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+         dom.scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-         function initTheme() { var saved = localStorage.getItem('theme'); if (saved === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); updateDarkIcon(true); } }
-         function updateDarkIcon(isDark) { darkIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon'); lucide.createIcons(); }
+         /* 
+            =========================================
+            THEME: DEFAULT DARK MODE
+            =========================================
+         */
+         const initTheme = () => {
+            let saved = localStorage.getItem('theme');
+            // If no theme is saved, default to 'dark'
+            if (!saved) {
+               saved = 'dark';
+               localStorage.setItem('theme', 'dark');
+            }
+            
+            if (saved === 'dark') { 
+               document.documentElement.setAttribute('data-theme', 'dark'); 
+               dom.darkIcon.setAttribute('data-lucide', 'sun'); 
+            } else { 
+               dom.darkIcon.setAttribute('data-lucide', 'moon'); 
+            }
+            lucide.createIcons(); 
+         };
          initTheme();
-         darkToggle.addEventListener('click', function() { var isDark = document.documentElement.getAttribute('data-theme') === 'dark'; if (isDark) { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); } else { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); } updateDarkIcon(!isDark); });
+         dom.darkToggle.addEventListener('click', () => { const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; if (isDark) { document.documentElement.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); } else { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); } initTheme(); });
 
          window.toggleLang = function() {
-            var elements = document.querySelectorAll("[data-en]"); var btn = document.querySelector(".lang-btn");
+            const elements = document.querySelectorAll("[data-en]"); const btn = document.querySelector(".lang-btn");
             currentLang = currentLang === "en" ? "hi" : "en"; btn.innerText = currentLang === "en" ? "हिंदी" : "English";
             if(currentLang === 'hi') document.body.classList.add('lang-hi'); else document.body.classList.remove('lang-hi');
             updateHeroTitle(currentLang); updateClinicNotice();
-            elements.forEach(function(el) { if (el.id === 'hero-title' || el.id === 'hero-desc') return; el.classList.add('text-swapping'); setTimeout(function() { if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA' && el.hasAttribute("data-" + currentLang)) { if(el.querySelector('i[data-lucide]')) return; el.innerText = el.getAttribute("data-" + currentLang); } el.classList.remove('text-swapping'); }, 300); });
+            elements.forEach(el => { if (el.id === 'hero-title' || el.id === 'hero-desc' || el.classList.contains('popup-gradient')) return; el.classList.add('text-swapping'); setTimeout(() => { if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA' && el.hasAttribute("data-" + currentLang)) { if(el.querySelector('i[data-lucide]')) return; el.innerText = el.getAttribute("data-" + currentLang); } el.classList.remove('text-swapping'); }, 300); });
          };
 
-         var sections = document.querySelectorAll('section');
-         var dividers = document.querySelectorAll('.section-divider');
-         var observerOptions = { threshold: 0.3 };
-         var sectionObserver = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
+         /* 
+            =========================================
+            INTERSECTION OBSERVER (Faster)
+            =========================================
+         */
+         const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
                if (entry.isIntersecting) {
-                  entry.target.querySelectorAll('.reveal-item').forEach(function(el, i) { setTimeout(function() { el.classList.add('visible'); }, i * 100); });
-                  var id = entry.target.id;
-                  navDots.forEach(function(dot) { dot.classList.remove('active'); if(dot.getAttribute('data-section') === id) dot.classList.add('active'); });
-                  navLinks.forEach(function(link) { link.classList.remove('active'); if(link.getAttribute('href') === '#' + id) link.classList.add('active'); });
+                  // Standard items
+                  entry.target.querySelectorAll('.reveal-item:not(.popup-gradient)').forEach((el, i) => setTimeout(() => el.classList.add('visible'), i * 80)); // Faster cascade
+                  
+                  // Popup Gradient items
+                  entry.target.querySelectorAll('.popup-gradient').forEach((el, i) => {
+                     setTimeout(() => {
+                        el.classList.add('visible');
+                        // Set the text content here if using data-default (fallback for non-translateable)
+                        if(el.hasAttribute('data-default')) el.textContent = el.getAttribute('data-default');
+                     }, i * 150);
+                  });
+
+                  if(entry.target.id) { dom.navDots.forEach(dot => dot.classList.toggle('active', dot.dataset.section === entry.target.id)); dom.navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id)); }
                }
             });
-         }, observerOptions);
-         sections.forEach(function(section) { sectionObserver.observe(section); });
+         }, { threshold: 0.3 });
+         document.querySelectorAll('section, .section-divider').forEach(el => observer.observe(el));
+         dom.navDots.forEach(dot => dot.addEventListener('click', () => document.getElementById(dot.dataset.section).scrollIntoView({ behavior: 'smooth' })));
 
-         var dividerObserver = new IntersectionObserver(function(entries) {
-             entries.forEach(function(entry) { if(entry.isIntersecting) entry.target.classList.add('visible'); });
-         }, { threshold: 0.5 });
-         dividers.forEach(function(div) { dividerObserver.observe(div); });
-
-         navDots.forEach(function(dot) { dot.addEventListener('click', function() { var target = document.getElementById(dot.getAttribute('data-section')); target.scrollIntoView({ behavior: 'smooth' }); }); });
-
-         // 3D Cards & Shadows
-         var cards = document.querySelectorAll('.premium-card');
-         cards.forEach(function(card) {
-            card.addEventListener('mousemove', function(e) {
-               if(isTouchDevice) return;
-               var rect = card.getBoundingClientRect();
-               var x = e.clientX - rect.left; var y = e.clientY - rect.top;
-               var xVal = (x / rect.width - 0.5) * 20; var yVal = (y / rect.height - 0.5) * -20;
-               var shadowX = -xVal * 2; var shadowY = -yVal * 2;
-               card.style.transform = 'perspective(1000px) rotateY(' + xVal + 'deg) rotateX(' + yVal + 'deg) scale(1.02)';
-               card.style.boxShadow = shadowX + 'px ' + shadowY + 'px 30px rgba(0,0,0,0.15)';
+         document.querySelectorAll('.premium-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+               if(isTouchDevice) return; const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+               card.style.setProperty('--mouse-x', `${x}px`); card.style.setProperty('--mouse-y', `${y}px`);
+               const xVal = (x / rect.width - 0.5) * 20; const yVal = (y / rect.height - 0.5) * -20;
+               card.style.transform = `perspective(1000px) rotateY(${xVal}deg) rotateX(${yVal}deg) scale(1.02)`;
+               card.style.boxShadow = `${-xVal*2}px ${-yVal*2}px 30px rgba(0,0,0,0.15)`;
             });
-            card.addEventListener('mouseleave', function() {
-               card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1)';
-               card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
-            });
+            card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1)'; card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.02)'; });
          });
 
-         // Magnetic Buttons
-         var magneticWraps = document.querySelectorAll('.magnetic-wrap');
-         magneticWraps.forEach(function(wrap) {
-            var btn = wrap.querySelector('.btn, .btn-contact'); if(!btn) return;
-            wrap.addEventListener('mousemove', function(e) { if(isTouchDevice) return; var rect = wrap.getBoundingClientRect(); var x = e.clientX - rect.left - rect.width / 2; var y = e.clientY - rect.top - rect.height / 2; btn.style.transform = 'translate(' + (x * 0.3) + 'px, ' + (y * 0.3) + 'px)'; });
-            wrap.addEventListener('mouseleave', function() { btn.style.transform = 'translate(0px, 0px)'; });
+         document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
+            const btn = wrap.querySelector('.btn, .btn-contact'); if(!btn) return;
+            wrap.addEventListener('mousemove', (e) => { if(isTouchDevice) return; const rect = wrap.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`; });
+            wrap.addEventListener('mouseleave', () => btn.style.transform = 'translate(0, 0)');
          });
 
-         var buttons = document.querySelectorAll('.btn, .btn-contact');
-         buttons.forEach(function(btn) {
+         document.querySelectorAll('.btn, .btn-contact').forEach(btn => {
             btn.addEventListener('click', function(e) {
-               var rect = this.getBoundingClientRect(); var ripple = document.createElement('span'); ripple.className = 'ripple';
-               var size = Math.max(rect.width, rect.height); ripple.style.width = ripple.style.height = size + 'px';
+               const rect = this.getBoundingClientRect(); const ripple = document.createElement('span'); ripple.className = 'ripple';
+               const size = Math.max(rect.width, rect.height); ripple.style.width = ripple.style.height = size + 'px';
                ripple.style.left = (e.clientX - rect.left - size/2) + 'px'; ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-               this.appendChild(ripple); setTimeout(function() { ripple.remove(); }, 600);
+               this.appendChild(ripple); setTimeout(() => ripple.remove(), 600);
                if(this.classList.contains('btn-primary') && navigator.vibrate) navigator.vibrate(10);
             });
          });
-         var heroCtaBtn = document.getElementById('heroCta');
-         if(heroCtaBtn && !isTouchDevice) {
-             document.addEventListener('mousemove', function(e) {
-                 var rect = heroCtaBtn.getBoundingClientRect(); var centerX = rect.left + rect.width / 2; var centerY = rect.top + rect.height / 2;
-                 var dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
-                 if(dist < 150) heroCtaBtn.classList.add('glow'); else heroCtaBtn.classList.remove('glow');
-             });
+
+         const heroCta = document.getElementById('heroCta');
+         if(heroCta && !isTouchDevice) {
+            document.addEventListener('mousemove', (e) => {
+               const rect = heroCta.getBoundingClientRect();
+               heroCta.classList.toggle('glow', Math.hypot(e.clientX - (rect.left + rect.width / 2), e.clientY - (rect.top + rect.height / 2)) < 150);
+            });
          }
       })();
    </script>
