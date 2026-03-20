@@ -4,9 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AL-Shifa Clinic — Expert General Physician and Internal Medicine. Mohammadabad Gohna, Mau.">
-
-  <!-- Open Graph — WhatsApp / Facebook share preview -->
-  <!-- NOTE: Replace /Doctor.jpeg with your full domain URL before going live -->
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://alshifaclinic.in/">
   <meta property="og:title"       content="AL-Shifa Clinic | Trusted Clinical Care">
@@ -16,71 +13,34 @@
   <meta name="twitter:title"       content="AL-Shifa Clinic | Trusted Clinical Care">
   <meta name="twitter:description" content="Expert General Physician &amp; Internal Medicine in Mohammadabad Gohna, Mau.">
   <meta name="twitter:image"       content="https://alshifaclinic.in/Doctor.jpeg">
-
   <title>AL-Shifa Clinic | Trusted Clinical Care</title>
-
   <link rel="icon" href="logo.png" type="image/png">
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Preload hint: browser fetches the CSS sooner, reducing FOUT -->
-  <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap">
-
-  <!-- Site styles -->
   <link rel="stylesheet" href="style.css">
-
-  <!--
-    HOW TO LINK YOUR FILES:
-    ─────────────────────────────────────────────────────────────
-    CSS  → <link rel="stylesheet" href="style.css">
-           (place inside <head>, as shown above)
-
-    JS   → <script src="script.js" defer></script>
-           (place just before </body>, as shown at bottom of this file)
-    ─────────────────────────────────────────────────────────────
-  -->
-
-  <!-- Lucide Icons (primary CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>
-    /* Fallback CDN if primary fails */
     if (typeof lucide === 'undefined') {
       var s = document.createElement('script');
       s.src = 'https://unpkg.com/lucide@0.399.0/dist/umd/lucide.min.js';
       document.head.appendChild(s);
     }
-    /* Safe icon initialiser — called after each dynamic render pass */
     window._icons = function () {
-      try {
-        if (typeof lucide !== 'undefined') lucide.createIcons();
-      } catch (e) {}
+      try { if (typeof lucide !== 'undefined') lucide.createIcons(); } catch (e) {}
     };
     window._icons();
   </script>
 </head>
-
 <body>
 
-  <!-- Skip navigation — keyboard accessibility (WCAG 2.4.1) -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <!-- Custom cursor (hidden on touch devices via CSS) -->
   <div class="cdot"  aria-hidden="true"></div>
   <div class="cring" aria-hidden="true"></div>
-
-  <!-- Scroll-progress bar -->
   <div id="spbar" aria-hidden="true"></div>
 
-
-  <!-- ══════════════════════════════════════════
-       ENTRY / SPLASH SCREEN
-  ══════════════════════════════════════════ -->
+  <!-- ENTRY -->
   <div id="entry" role="region" aria-label="AL-Shifa Clinic — tap to enter">
-
-    <!-- Gradient for spinner ring -->
     <svg width="0" height="0" aria-hidden="true" style="position:absolute">
       <defs>
         <linearGradient id="eg" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -90,57 +50,33 @@
         </linearGradient>
       </defs>
     </svg>
-
-    <!-- Curtain panels -->
     <div class="ep-l" aria-hidden="true"></div>
     <div class="ep-r" aria-hidden="true"></div>
-
-    <!-- Light rays -->
     <div class="erays" aria-hidden="true">
-      <div class="eray"></div>
-      <div class="eray"></div>
-      <div class="eray"></div>
-      <div class="eray"></div>
+      <div class="eray"></div><div class="eray"></div>
+      <div class="eray"></div><div class="eray"></div>
     </div>
-
-    <!-- Lens flare -->
     <div class="eflare" aria-hidden="true"></div>
-
-    <!-- Centre content -->
     <div class="einner">
       <div class="erings" aria-hidden="true">
-        <div class="ering"></div>
-        <div class="ering"></div>
-        <div class="ering"></div>
-        <div class="ering"></div>
+        <div class="ering"></div><div class="ering"></div>
+        <div class="ering"></div><div class="ering"></div>
       </div>
-
       <div class="elogowrap" aria-hidden="true">
-        <svg viewBox="0 0 120 120" aria-hidden="true">
-          <circle cx="60" cy="60" r="55"/>
-        </svg>
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="55"/></svg>
         <img class="elogoimg" src="logo.png" alt="">
       </div>
-
       <p class="ename">AL-Shifa Clinic</p>
       <p class="esub">General Physician &middot; Internal Medicine</p>
-
-      <div class="ebarwrap" aria-hidden="true">
-        <div class="ebar" id="ebar"></div>
-      </div>
-
+      <div class="ebarwrap" aria-hidden="true"><div class="ebar" id="ebar"></div></div>
       <div class="ehint" aria-hidden="true">
         <span>Tap or scroll to enter</span>
         <div class="ehintline"></div>
       </div>
     </div>
+  </div>
 
-  </div><!-- /#entry -->
-
-
-  <!-- ══════════════════════════════════════════
-       SIDE NAV DOTS
-  ══════════════════════════════════════════ -->
+  <!-- NAV DOTS -->
   <div class="ndots" id="ndots">
     <button class="ndot active" data-t="hero"     aria-label="Go to Home section"></button>
     <button class="ndot"        data-t="about"    aria-label="Go to About section"></button>
@@ -150,11 +86,8 @@
     <button class="ndot"        data-t="contact"  aria-label="Go to Contact section"></button>
   </div>
 
-
-  <!-- ══════════════════════════════════════════
-       MOBILE MENU OVERLAY
-  ══════════════════════════════════════════ -->
-  <div class="mobmenu" id="mobmenu" role="navigation" aria-label="Site navigation">
+  <!-- MOBILE MENU -->
+  <div class="mobmenu" id="mobmenu">
     <nav class="moblinks" aria-label="Mobile navigation links">
       <a href="#about"    class="moblink">About</a>
       <a href="#services" class="moblink">Services</a>
@@ -162,203 +95,118 @@
       <a href="#contact"  class="moblink">Contact</a>
     </nav>
     <div class="mobacts">
-      <a href="tel:+917839475476" class="btn btn-p">
-        <i data-lucide="phone-call"></i>Call Clinic
-      </a>
-      <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20visit%20AL-Shifa%20Clinic." target="_blank" rel="noopener noreferrer" class="btn btn-o">
-        <i data-lucide="message-circle"></i>WhatsApp
-      </a>
+      <a href="tel:+917839475476" class="btn btn-p"><i data-lucide="phone-call"></i>Call Clinic</a>
+      <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20visit%20AL-Shifa%20Clinic." target="_blank" rel="noopener noreferrer" class="btn btn-o"><i data-lucide="message-circle"></i>WhatsApp</a>
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════════════
-       PRIMARY NAVIGATION
-  ══════════════════════════════════════════ -->
+  <!-- PRIMARY NAV -->
   <header>
     <nav id="mainnav" aria-label="Primary navigation">
-
       <a href="#hero" class="nlogo" aria-label="AL-Shifa Clinic — go to top">
         <img src="logo.png" alt="AL-Shifa Clinic logo" class="soft-pulse" width="40" height="40">
         <span class="nlogoname">AL-Shifa Clinic</span>
       </a>
-
       <div class="nlinks">
         <a href="#about"    class="nlink">About</a>
         <a href="#services" class="nlink">Services</a>
         <a href="#doctor"   class="nlink">Doctor</a>
         <a href="#contact"  class="nlink">Contact</a>
       </div>
-
       <div style="display:flex; align-items:center; gap:var(--sp3)">
         <a href="#contact" class="nav-cta" aria-label="Book a clinic visit">
           <i data-lucide="phone-call"></i>Book Visit
         </a>
-        <button class="nham" id="hamBtn" aria-label="Open navigation menu" aria-expanded="false">
-          <span class="nhaml"></span>
-          <span class="nhaml"></span>
-          <span class="nhaml"></span>
+        <button class="nham" id="hamBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobmenu">
+          <span class="nhaml"></span><span class="nhaml"></span><span class="nhaml"></span>
         </button>
       </div>
-
     </nav>
   </header>
 
-
   <main id="main-content">
 
-    <!-- ══════════════════════════════════════════
-         HERO
-    ══════════════════════════════════════════ -->
+    <!-- HERO -->
     <section id="hero" aria-label="Welcome">
-
-      <!-- Ambient background -->
       <div class="heroBg" aria-hidden="true">
-        <div class="orb o1"></div>
-        <div class="orb o2"></div>
-        <div class="orb o3"></div>
+        <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
       </div>
       <div class="hgrid" aria-hidden="true"></div>
-
-      <!-- Canvas particles -->
-      <canvas id="ptcl" aria-hidden="true"></canvas>
-
-      <!-- Floating medical icons -->
+      <canvas id="ptcl" width="1200" height="700" aria-hidden="true"></canvas>
       <div class="hicons" aria-hidden="true">
-        <div class="hicon hi1">
-          <i data-lucide="stethoscope" style="width:20px;height:20px;stroke:rgba(200,168,90,0.42)"></i>
-        </div>
-        <div class="hicon hi2">
-          <i data-lucide="heart-pulse"  style="width:20px;height:20px;stroke:rgba(155,30,30,0.40)"></i>
-        </div>
-        <div class="hicon hi3">
-          <i data-lucide="activity"     style="width:20px;height:20px;stroke:rgba(200,168,90,0.35)"></i>
-        </div>
-        <div class="hicon hi4">
-          <i data-lucide="pill"         style="width:20px;height:20px;stroke:rgba(155,30,30,0.32)"></i>
-        </div>
+        <div class="hicon hi1"><i data-lucide="stethoscope" style="width:20px;height:20px;stroke:rgba(200,168,90,0.42)"></i></div>
+        <div class="hicon hi2"><i data-lucide="heart-pulse"  style="width:20px;height:20px;stroke:rgba(155,30,30,0.40)"></i></div>
+        <div class="hicon hi3"><i data-lucide="activity"     style="width:20px;height:20px;stroke:rgba(200,168,90,0.35)"></i></div>
+        <div class="hicon hi4"><i data-lucide="pill"         style="width:20px;height:20px;stroke:rgba(155,30,30,0.32)"></i></div>
       </div>
-
       <div class="wrap">
         <div class="heroin">
-
-          <!-- Live clinic status badge -->
-          <div class="hbadge" id="hbadge" role="status" aria-live="polite">
+          <div class="hbadge" id="hbadge" role="status">
             <span class="sdot" id="sdot"></span>
             <span id="stxt">Checking hours&hellip;</span>
           </div>
-
           <h1 class="h1 htitle">
             Expert <span class="tgold">General Physician</span><br>
             <span style="color:rgba(255,255,255,0.60)">&amp; Internal Medicine</span>
           </h1>
-
           <p class="hdesc">
             Ethical diagnosis. Structured treatment.<br>
             Patient-focused healthcare in Mohammadabad Gohna, Mau.
           </p>
-
           <div class="hacts">
-            <div class="mag">
-              <a href="#contact" class="btn btn-p" id="heroCta">
-                Book Appointment<i data-lucide="arrow-right"></i>
-              </a>
-            </div>
-            <div class="mag">
-              <a href="#services" class="btn btn-o">
-                Our Services<i data-lucide="arrow-right"></i>
-              </a>
-            </div>
+            <div class="mag"><a href="#contact" class="btn btn-p" id="heroCta">Book Appointment<i data-lucide="arrow-right"></i></a></div>
+            <div class="mag"><a href="#services" class="btn btn-o">Our Services<i data-lucide="arrow-right"></i></a></div>
           </div>
-
         </div>
       </div>
-
-      <div class="scrollhint" aria-hidden="true">
-        <span>Scroll</span>
-        <div class="shl"></div>
-      </div>
-
+      <div class="scrollhint" aria-hidden="true"><span>Scroll</span><div class="shl"></div></div>
     </section>
 
     <div class="sdiv" id="div-about"></div>
 
-
-    <!-- ══════════════════════════════════════════
-         ABOUT
-    ══════════════════════════════════════════ -->
+    <!-- ABOUT -->
     <section id="about" aria-label="About AL-Shifa Clinic">
       <div class="wrap">
         <div class="agrid">
-
-          <!-- Text column -->
           <div>
             <span class="eyebrow rv up">About Us</span>
-            <h2 class="h2 rv up d1 underline-reveal">About<br>AL-Shifa Clinic</h2>
+            <h2 class="h2 rv up d1"><span class="underline-reveal">About<br>AL-Shifa Clinic</span></h2>
             <div class="grule rv up d2"></div>
-
-            <p class="rv up d2">
-              AL-Shifa Clinic stands as a center of trusted and structured medical care
-              in Mohammadabad Gohna, Mau &mdash; combining ethical clinical practice with
-              genuine patient-centered values.
-            </p>
-            <p class="rv up d3">
-              We specialise in Gastroenterology, Respiratory Medicine, Internal Medicine,
-              and comprehensive chronic disease management &mdash; providing structured
-              diagnosis and tailored treatment plans.
-            </p>
-
-            <blockquote class="aquote rv up d4">
-              <p>&ldquo;Healing begins with trust.&rdquo;</p>
-            </blockquote>
+            <p class="rv up d2">AL-Shifa Clinic stands as a center of trusted and structured medical care in Mohammadabad Gohna, Mau &mdash; combining ethical clinical practice with genuine patient-centered values.</p>
+            <p class="rv up d3">We specialise in Gastroenterology, Respiratory Medicine, Internal Medicine, and comprehensive chronic disease management &mdash; providing structured diagnosis and tailored treatment plans.</p>
+            <blockquote class="aquote rv up d4"><p>&ldquo;Healing begins with trust.&rdquo;</p></blockquote>
           </div>
-
-          <!-- Visual card column -->
           <div class="rv right d1">
             <div class="acard">
               <div class="acardsheen" aria-hidden="true"></div>
               <img src="logo.png" alt="AL-Shifa Clinic">
-              <div class="acardbadge">
-                <i data-lucide="shield-check"></i>Trusted Care
-              </div>
+              <div class="acardbadge"><i data-lucide="shield-check"></i>Trusted Care</div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- Section curve: about → services -->
     <div class="sect-transition st-about" aria-hidden="true">
       <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,0 Q300,48 600,24 Q900,0 1200,48 L1200,48 L0,48 Z" class="st-fill-services"/>
       </svg>
     </div>
-
     <div class="sdiv" id="div-services"></div>
 
-
-    <!-- ══════════════════════════════════════════
-         SERVICES
-    ══════════════════════════════════════════ -->
+    <!-- SERVICES -->
     <section id="services" aria-label="Our Services">
       <div class="wrap">
-
         <header class="svchdr rv up">
           <span class="eyebrow ctr">Specialised Treatments</span>
-          <h2 class="h2 underline-reveal">Conditions We Treat</h2>
+          <h2 class="h2"><span class="underline-reveal">Conditions We Treat</span></h2>
           <div class="grule ctr rv up d1"></div>
-          <p style="max-width:500px; margin:0 auto">
-            Nine clinical areas &mdash; all conditions listed are actively treated at AL-Shifa Clinic.
-          </p>
+          <p style="max-width:500px; margin:0 auto">Nine clinical areas &mdash; all conditions listed are actively treated at AL-Shifa Clinic.</p>
         </header>
-
-        <!-- Section progress: updated by JS as user scrolls -->
         <div id="svc-progress" aria-hidden="true">
           <span id="svc-count">1 of 9</span>
           <div id="svc-progress-bar"><div id="svc-progress-fill"></div></div>
         </div>
-
         <div class="svcgrid">
 
           <article class="svccard rv up d1">
@@ -375,13 +223,10 @@
               <li><i data-lucide="dot"></i><span>Intestinal inflammation</span></li>
               <li><i data-lucide="dot"></i><span>Piles, fistula &amp; fissure</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Gastro%20%26%20Digestive%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Gastro%20%26%20Digestive%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 2. Respiratory -->
           <article class="svccard rv up d2">
             <div class="svcico"><i data-lucide="wind"></i></div>
             <h3 class="svctitle">Respiratory &amp; Chest Diseases</h3>
@@ -394,13 +239,10 @@
               <li><i data-lucide="dot"></i><span>Sinus &amp; nasal allergies</span></li>
               <li><i data-lucide="dot"></i><span>Children&apos;s chest &amp; lung issues</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Respiratory%20%26%20Chest%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Respiratory%20%26%20Chest%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 3. Infectious -->
           <article class="svccard rv up d3">
             <div class="svcico"><i data-lucide="thermometer"></i></div>
             <h3 class="svctitle">Infectious &amp; Viral Diseases</h3>
@@ -412,13 +254,10 @@
               <li><i data-lucide="dot"></i><span>Brain fever (encephalitis)</span></li>
               <li><i data-lucide="dot"></i><span>Seasonal &amp; bacterial infections</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Infectious%20%26%20Viral%20Diseases." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Infectious%20%26%20Viral%20Diseases." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 4. Gallbladder & Kidney -->
           <article class="svccard rv up d4">
             <div class="svcico gold"><i data-lucide="droplets"></i></div>
             <h3 class="svctitle">Gallbladder &amp; Kidney</h3>
@@ -429,13 +268,10 @@
               <li><i data-lucide="dot"></i><span>UTI &amp; burning urination</span></li>
               <li><i data-lucide="dot"></i><span>Frequent or interrupted urination</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Gallbladder%20%26%20Kidney%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Gallbladder%20%26%20Kidney%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 5. General Symptoms -->
           <article class="svccard rv up d5">
             <div class="svcico gold"><i data-lucide="stethoscope"></i></div>
             <h3 class="svctitle">General Symptoms &amp; Conditions</h3>
@@ -447,13 +283,10 @@
               <li><i data-lucide="dot"></i><span>Anaemia (low blood levels)</span></li>
               <li><i data-lucide="dot"></i><span>Joint pain &amp; back pain</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20General%20Symptoms." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20General%20Symptoms." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 6. Skin & Allergy -->
           <article class="svccard rv up d6">
             <div class="svcico gold"><i data-lucide="sparkles"></i></div>
             <h3 class="svctitle">Skin &amp; Allergy Conditions</h3>
@@ -464,13 +297,10 @@
               <li><i data-lucide="dot"></i><span>Allergic reactions</span></li>
               <li><i data-lucide="dot"></i><span>Sinus &amp; dust allergies</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Skin%20%26%20Allergy%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Skin%20%26%20Allergy%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 7. Paediatric -->
           <article class="svccard rv up d1">
             <div class="svcico"><i data-lucide="baby"></i></div>
             <h3 class="svctitle">Children&apos;s Health (Paediatric)</h3>
@@ -481,13 +311,10 @@
               <li><i data-lucide="dot"></i><span>Stomach issues in children</span></li>
               <li><i data-lucide="dot"></i><span>Weakness &amp; growth concerns</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Children%27s%20Health." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Children%27s%20Health." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 8. Urinary -->
           <article class="svccard rv up d2">
             <div class="svcico"><i data-lucide="droplet"></i></div>
             <h3 class="svctitle">Urinary System Disorders</h3>
@@ -498,13 +325,10 @@
               <li><i data-lucide="dot"></i><span>Urinary tract infections (UTI)</span></li>
               <li><i data-lucide="dot"></i><span>Kidney-related urinary issues</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Urinary%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Urinary%20issues." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-          <!-- 9. Reproductive & Sexual Health -->
           <article class="svccard rv up d3">
             <div class="svcico"><i data-lucide="heart"></i></div>
             <h3 class="svctitle">Reproductive &amp; Sexual Health</h3>
@@ -515,171 +339,109 @@
               <li><i data-lucide="dot"></i><span>Men&apos;s &amp; women&apos;s sexual health</span></li>
               <li><i data-lucide="dot"></i><span>Other reproductive conditions</span></li>
             </ul>
-            <div class="svc-cta">
-              <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Reproductive%20%26%20Sexual%20Health." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a>
-            </div>
+            <div class="svc-cta"><a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20consult%20about%20Reproductive%20%26%20Sexual%20Health." target="_blank" rel="noopener noreferrer" class="svc-cta-link"><i data-lucide="message-circle"></i>Contact for this</a></div>
             <div class="svc-expand-hint"><i data-lucide="chevron-down"></i>Tap for more</div>
           </article>
 
-        </div><!-- /.svcgrid -->
+        </div>
       </div>
     </section>
 
     <div class="sdiv" id="div-trust"></div>
 
-    <!-- ══════════════════════════════════════════
-         TRUST / WHY US
-    ══════════════════════════════════════════ -->
+    <!-- TRUST -->
     <section id="trust" aria-label="Why choose AL-Shifa Clinic">
-
       <div class="twave" aria-hidden="true">
         <svg viewBox="0 0 1200 52" preserveAspectRatio="none" aria-hidden="true">
           <path d="M0,52 C400,0 800,52 1200,0 L1200,0 L0,0 Z" class="twavefill"/>
         </svg>
       </div>
-
       <div class="wrap">
         <div class="tbody">
-
-          <span class="eyebrow ctr rv up" style="justify-content:center; color:var(--gold)">
-            Why Choose Us
-          </span>
-          <h2 class="h2 rv up d1 underline-reveal">A Trusted Name<br>in Clinical Care</h2>
-          <p class="rv up d2">
-            Structured diagnosis, qualified specialists, and genuine care &mdash; every visit.
-          </p>
-
+          <span class="eyebrow ctr rv up" style="justify-content:center; color:var(--gold)">Why Choose Us</span>
+          <h2 class="h2 rv up d1"><span class="underline-reveal">A Trusted Name<br>in Clinical Care</span></h2>
+          <p class="rv up d2">Structured diagnosis, qualified specialists, and genuine care &mdash; every visit.</p>
           <div class="tcards">
-
             <div class="tcard rv up d1">
               <div class="tico"><i data-lucide="award"></i></div>
               <p class="ttitle">Qualified Specialists</p>
-              <p class="tdesc">
-                Certified physicians with recognised credentials and years of focused clinical experience.
-              </p>
+              <p class="tdesc">Certified physicians with recognised credentials and years of focused clinical experience.</p>
             </div>
-
             <div class="tcard rv up d2">
               <div class="tico"><i data-lucide="clipboard-check"></i></div>
               <p class="ttitle">Structured Diagnosis</p>
-              <p class="tdesc">
-                Methodical, evidence-based evaluation &mdash; no guesswork, clear reasoning behind every prescription.
-              </p>
+              <p class="tdesc">Methodical, evidence-based evaluation &mdash; no guesswork, clear reasoning behind every prescription.</p>
             </div>
-
             <div class="tcard rv up d3">
               <div class="tico"><i data-lucide="heart-handshake"></i></div>
               <p class="ttitle">Patient-Centric Care</p>
-              <p class="tdesc">
-                We listen first. Every treatment plan is tailored to the individual, not just the condition.
-              </p>
+              <p class="tdesc">We listen first. Every treatment plan is tailored to the individual, not just the condition.</p>
             </div>
-
-          </div><!-- /.tcards -->
+          </div>
         </div>
       </div>
-
     </section>
 
     <div class="sdiv" id="div-doctor"></div>
 
-
-    <!-- ══════════════════════════════════════════
-         DOCTOR
-    ══════════════════════════════════════════ -->
+    <!-- DOCTOR -->
     <section id="doctor" aria-label="Meet our doctor">
       <div class="wrap">
-        <div class="rv up" style="position:relative">
+        <div class="rv up">
           <div class="doccard">
-
-            <!-- Verified badge -->
             <div class="vbadge" title="Verified Medical Professional" aria-label="Verified Medical Professional">
               <i data-lucide="shield-check"></i>
             </div>
-
-            <!-- Photo -->
             <div class="docphoto" id="docphoto">
               <img id="docphoto-img" class="blur-up" src="Doctor.jpeg" loading="lazy" fetchpriority="low" alt="Dr. Mohammad Arif — General Physician &amp; Specialist">
             </div>
-
-            <!-- Info -->
             <div class="docinfo">
               <span class="eyebrow">Meet Your Doctor</span>
               <h2 class="docname">Dr. Mohammad Arif</h2>
               <span class="docrole">General Physician &amp; Specialist &middot; Managing Director</span>
-
-              <p class="docbio">
-                Dr. Mohammad Arif is a certified medical professional specialising in
-                Internal Medicine with extensive experience diagnosing and managing complex
-                conditions. His patient-first philosophy ensures every individual receives
-                structured, ethical care.
-              </p>
-
-              <!-- Specialisations -->
+              <p class="docbio">Dr. Mohammad Arif is a certified medical professional specialising in Internal Medicine with extensive experience diagnosing and managing complex conditions. His patient-first philosophy ensures every individual receives structured, ethical care.</p>
               <div class="specgrp" aria-label="Specialisations">
                 <span class="specbadge"><i data-lucide="stethoscope"></i>Internal Medicine</span>
                 <span class="specbadge"><i data-lucide="pill"></i>Gastroenterology</span>
                 <span class="specbadge"><i data-lucide="wind"></i>Respiratory</span>
                 <span class="specbadge"><i data-lucide="activity"></i>Chronic Disease</span>
               </div>
-
-              <!-- Qualifications -->
               <div class="specgrp" style="margin-bottom:var(--sp6)" aria-label="Qualifications">
                 <span class="specbadge"><i data-lucide="graduation-cap"></i>M.Sc.</span>
                 <span class="specbadge"><i data-lucide="graduation-cap"></i>B.U.M.S.</span>
                 <span class="specbadge"><i data-lucide="badge-check"></i>CFAID</span>
                 <span class="specbadge"><i data-lucide="award"></i>CHBHC</span>
               </div>
-
-              <div class="mag">
-                <a href="#contact" class="btn btn-p">
-                  Schedule Consultation<i data-lucide="arrow-right"></i>
-                </a>
-              </div>
-            </div><!-- /.docinfo -->
-
-          </div><!-- /.doccard -->
+              <div class="mag"><a href="#contact" class="btn btn-p">Schedule Consultation<i data-lucide="arrow-right"></i></a></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Section curve: doctor → contact -->
     <div class="sect-transition st-doctor" aria-hidden="true">
       <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,48 Q300,0 600,24 Q900,48 1200,0 L1200,48 L0,48 Z" class="st-fill-contact"/>
       </svg>
     </div>
-
     <div class="sdiv" id="div-contact"></div>
 
-
-    <!-- ══════════════════════════════════════════
-         CONTACT
-    ══════════════════════════════════════════ -->
+    <!-- CONTACT -->
     <section id="contact" aria-label="Contact and location">
       <div class="wrap">
         <div class="rv up">
-
           <div class="ccard">
-
-            <!-- Info panel -->
             <div class="cinfo">
               <div class="cihd">
                 <span class="eyebrow" style="color:var(--gold)">Get in Touch</span>
-                <h2 class="h2" style="margin-bottom:var(--sp2)">
-                  Visit Us Today
-                </h2>
+                <h2 class="h2" style="margin-bottom:var(--sp2)">Visit Us Today</h2>
                 <p>Walk in or call ahead &mdash; we&apos;re here for you.</p>
               </div>
-
-              <address class="cbody" style="font-style:normal">
-                <div>
+              <div class="cbody">
+                <address style="font-style:normal">
                   <span class="ilbl">Location</span>
-                  <span class="ival">
-                    Near UBI, Station Road<br>
-                    Mohammadabad Gohna, Mau
-                  </span>
-                </div>
+                  <span class="ival">Near UBI, Station Road<br>Mohammadabad Gohna, Mau</span>
+                </address>
                 <div>
                   <span class="ilbl">Clinic Hours</span>
                   <dl class="itimetable">
@@ -687,43 +449,30 @@
                     <dt>Friday</dt><dd>10:00 &ndash; 12:30 &amp; 16:00 &ndash; 19:00</dd>
                     <dt>Sunday</dt><dd>Closed</dd>
                   </dl>
-                  <!-- Dynamic next-slot indicator — updated by JS -->
                   <div id="next-slot" class="next-slot" aria-live="polite" style="display:none">
-                    <i data-lucide="clock"></i>
-                    <span id="next-slot-text"></span>
+                    <i data-lucide="clock"></i><span id="next-slot-text"></span>
                   </div>
                 </div>
-              </address>
-
+              </div>
               <div class="cacts">
                 <div class="mag" style="width:100%">
-                  <a href="tel:+917839475476" class="cbtn cbcall" style="width:100%" aria-label="Call the clinic">
-                    <i data-lucide="phone-call"></i>Call Clinic
-                  </a>
+                  <a href="tel:+917839475476" class="cbtn cbcall" style="width:100%" aria-label="Call the clinic"><i data-lucide="phone-call"></i>Call Clinic</a>
                 </div>
                 <div class="mag" style="width:100%">
-                  <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20visit%20AL-Shifa%20Clinic." target="_blank" rel="noopener noreferrer"
-                     class="cbtn cbwa" style="width:100%" aria-label="WhatsApp the clinic">
-                    <i data-lucide="message-circle"></i>WhatsApp
-                  </a>
+                  <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20visit%20AL-Shifa%20Clinic." target="_blank" rel="noopener noreferrer" class="cbtn cbwa" style="width:100%" aria-label="WhatsApp the clinic"><i data-lucide="message-circle"></i>WhatsApp</a>
                 </div>
               </div>
-            </div><!-- /.cinfo -->
-
-            <!-- Map panel — Google Maps embed -->
+            </div>
             <div class="cmap">
-
-              <!-- Review prompt bar -->
               <div class="map-review">
-                <div class="map-review-stars" aria-hidden="true">★★★★★</div>
+                <div class="map-review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                 <p class="map-review-text">Happy with your visit? Help others find us</p>
-                <a href="https://www.google.com/maps/place/AL+Shifa+Clinic/@26.0350,83.3800,17z/data=!4m8!3m7!1s0x0:0x0!8m2!3d26.0350!4d83.3800!9m1!1b1"
+                <a href="https://www.google.com/maps/place/AL+Shifa+Clinic/@26.0350,83.3800,17z"
                    target="_blank" rel="noopener noreferrer"
                    class="map-review-btn" aria-label="Write a review for AL-Shifa Clinic on Google Maps (opens in new tab)">
                   <i data-lucide="pencil-line"></i>Write a Review
                 </a>
               </div>
-
               <iframe
                 class="mframe"
                 src="https://www.google.com/maps?q=26.0350,83.3800&z=16&output=embed"
@@ -732,70 +481,38 @@
                 loading="lazy"
                 allowfullscreen>
               </iframe>
-            </div><!-- /.cmap -->
-
-          </div><!-- /.ccard -->
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-  </main><!-- /main -->
+  </main>
 
-
-  <!-- ══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════ -->
   <footer>
     <div class="wrap">
       <div class="fotin">
-
         <a href="#hero" class="fotlogo" aria-label="AL-Shifa Clinic — back to top">
           <img src="logo.png" alt="AL-Shifa Clinic logo" width="36" height="36">
           <span>AL-Shifa Clinic</span>
         </a>
-
         <small class="fotcopy">&copy; 2026 AL-Shifa Clinic. All rights reserved.</small>
-
         <span class="fotcred">Designed by Mohd Azhan</span>
-
       </div>
     </div>
   </footer>
 
+  <button id="topBtn"   class="ctrlbtn" aria-label="Scroll back to top"><i data-lucide="arrow-up"></i></button>
+  <button id="themeBtn" class="ctrlbtn" aria-label="Toggle light / dark mode"><i data-lucide="sun" id="themeIcon"></i></button>
 
-  <!-- ══════════════════════════════════════════
-       FIXED UTILITY CONTROLS
-  ══════════════════════════════════════════ -->
-  <button id="topBtn"   class="ctrlbtn" aria-label="Scroll back to top">
-    <i data-lucide="arrow-up"></i>
-  </button>
-
-  <button id="themeBtn" class="ctrlbtn" aria-label="Toggle light / dark mode">
-    <i data-lucide="sun" id="themeIcon"></i>
-  </button>
-
-
-  <!-- ══════════════════════════════════════════
-       MOBILE SMART BAR
-  ══════════════════════════════════════════ -->
   <div class="smartbar" role="navigation" aria-label="Quick contact actions">
     <div class="sbi">
-      <a href="tel:+917839475476" class="sbb p" aria-label="Call the clinic">
-        <i data-lucide="phone-call"></i>Call
-      </a>
-      <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20visit%20AL-Shifa%20Clinic." target="_blank" rel="noopener noreferrer" class="sbb"
-         aria-label="WhatsApp the clinic">
-        <i data-lucide="message-circle"></i>WhatsApp
-      </a>
-      <a href="#contact" class="sbb" aria-label="View clinic location">
-        <i data-lucide="map-pin"></i>Location
-      </a>
+      <a href="tel:+917839475476" class="sbb p" aria-label="Call the clinic"><i data-lucide="phone-call"></i>Call</a>
+      <a href="https://wa.me/917839475476?text=Hello%2C%20I%27d%20like%20to%20visit%20AL-Shifa%20Clinic." target="_blank" rel="noopener noreferrer" class="sbb" aria-label="WhatsApp the clinic"><i data-lucide="message-circle"></i>WhatsApp</a>
+      <a href="#contact" class="sbb" aria-label="View clinic location"><i data-lucide="map-pin"></i>Location</a>
     </div>
   </div>
 
-
-  <!-- Site JS -->
   <script src="script.js" defer></script>
-
 </body>
 </html>
