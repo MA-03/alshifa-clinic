@@ -1,0 +1,607 @@
+/* ============================================================
+   AL-SHIFA CLINIC — festival-banner.css  v5.0
+   Floating pill — Dynamic Island feel
+   Site-wide themes live in festival-themes.css
+   ============================================================ */
+
+/* ══════════════════════════════════════════════════════════════
+   PILL SHELL
+══════════════════════════════════════════════════════════════ */
+
+#fst-banner {
+  position: fixed;
+  top: calc(var(--nav-h, 72px) + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-22px) scale(0.84) translateZ(0);
+
+  width: max-content;
+  min-width: clamp(240px, 52vw, 290px);
+  max-width: min(660px, calc(100vw - 32px));
+  border-radius: 22px;
+
+  z-index: 990;
+  overflow: hidden;
+  cursor: default;
+
+  background: var(--fst-bg, rgba(8,12,28,0.88));
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+
+  box-shadow:
+    0 0 0 1px var(--fst-border-color, rgba(255,255,255,0.10)),
+    0 5px 24px rgba(0,0,0,0.60),
+    0 14px 48px rgba(0,0,0,0.42),
+    0 1px 0 rgba(255,255,255,0.07) inset;
+
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: transform 0s, opacity 0s;
+
+  --fst-pill-bg:     rgba(255,255,255,0.05);
+  --fst-pill-border: rgba(255,255,255,0.15);
+  --fst-pill-color:  rgba(255,255,255,0.88);
+  --fst-border-color: rgba(255,255,255,0.10);
+  --fst-bg: rgba(8,12,28,0.88);
+}
+
+/* ── Entrance spring ── */
+#fst-banner.fst-visible {
+  transform: translateX(-50%) translateY(0) scale(1) translateZ(0);
+  opacity: 1;
+  transition:
+    transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity   0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Glass blur activates after entrance ── */
+#fst-banner.fst-settled {
+  backdrop-filter: blur(32px) saturate(2);
+  -webkit-backdrop-filter: blur(32px) saturate(2);
+}
+
+/* ── HOVER EXPAND — noticeably larger ── */
+#fst-banner.fst-settled:hover,
+#fst-banner.fst-settled:focus-within {
+  transform: translateX(-50%) translateY(-4px) scale(1.10) translateZ(0);
+  box-shadow:
+    0 0 0 1.5px var(--fst-border-hover, rgba(255,255,255,0.30)),
+    0 0 0 6px   var(--fst-glow-color,   rgba(200,168,90,0.07)),
+    0 12px 40px rgba(0,0,0,0.70),
+    0 28px 70px rgba(0,0,0,0.48),
+    0 1px 0 rgba(255,255,255,0.12) inset;
+  transition:
+    transform  0.45s cubic-bezier(0.34, 1.3, 0.64, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Sub text unfolds on hover */
+#fst-banner.fst-settled:hover .fst-sub,
+#fst-banner.fst-settled:focus-within .fst-sub {
+  max-height: 3em;
+  opacity: 0.68;
+  transform: translateY(0);
+  margin-top: 3px;
+  transition:
+    max-height 0.35s cubic-bezier(0.22,1,0.36,1) 0s,
+    opacity    0.32s cubic-bezier(0.22,1,0.36,1) 0.05s,
+    transform  0.32s cubic-bezier(0.22,1,0.36,1) 0.05s,
+    margin-top 0.35s cubic-bezier(0.22,1,0.36,1) 0s;
+}
+
+/* Pill inside brightens on hover */
+#fst-banner.fst-settled:hover .fst-pill,
+#fst-banner.fst-settled:focus-within .fst-pill {
+  box-shadow:
+    0 2px 20px rgba(0,0,0,0.40),
+    0 0 24px var(--fst-pill-glow, rgba(200,168,90,0.16)),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+/* ── Shimmer sweep along bottom ── */
+#fst-banner::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
+  background: var(--fst-shimmer-line, rgba(255,255,255,0.15));
+  transform: translateX(-100%);
+  animation: fst-line-pass 5.5s cubic-bezier(0.4,0,0.2,1) infinite 3s;
+  border-radius: 0 0 22px 22px;
+  pointer-events: none;
+}
+
+/* ── Top glass edge highlight ── */
+#fst-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: var(--fst-top-edge, linear-gradient(90deg,
+    transparent 0%, rgba(255,255,255,0.14) 25%,
+    rgba(255,255,255,0.24) 50%,
+    rgba(255,255,255,0.14) 75%, transparent 100%));
+  pointer-events: none;
+  z-index: 5;
+  border-radius: 22px 22px 0 0;
+}
+
+/* Tricolor replaces top edge for national days */
+#fst-banner.fst-republic::before,
+#fst-banner.fst-independence::before {
+  height: 2px;
+  background: linear-gradient(90deg,
+    #FF9933 0%, #FF9933 33%,
+    rgba(255,255,255,0.65) 33%, rgba(255,255,255,0.65) 66%,
+    #138808 66%, #138808 100%);
+  opacity: 0.65;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   INNER LAYOUT
+══════════════════════════════════════════════════════════════ */
+
+.fst-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 20px;
+  min-height: 62px;
+}
+
+/* Ensure text doesn't overlap right-side decoration */
+.fst-eid-fitr .fst-inner,
+.fst-eid-adha .fst-inner { padding-right: clamp(54px,9vw,82px); }
+
+.fst-republic .fst-inner,
+.fst-independence .fst-inner { padding-right: clamp(50px,8vw,76px); }
+
+.fst-bg {
+  position: absolute; inset: 0;
+  pointer-events: none; overflow: hidden;
+  z-index: 0; border-radius: 22px;
+}
+
+/* ── Text ── */
+.fst-text {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  min-width: 0; overflow: hidden;
+}
+
+.fst-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.12rem, 2.8vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity   0.55s cubic-bezier(0.22,1,0.36,1) 0.3s,
+    transform 0.55s cubic-bezier(0.22,1,0.36,1) 0.3s;
+}
+
+/* Sub — collapsed by default, expands on hover */
+.fst-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(0.55rem, 1.1vw, 0.65rem);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  transform: translateY(4px);
+  transition:
+    max-height 0.4s cubic-bezier(0.22,1,0.36,1) 0.5s,
+    opacity    0.4s cubic-bezier(0.22,1,0.36,1) 0.5s,
+    transform  0.4s cubic-bezier(0.22,1,0.36,1) 0.5s,
+    margin-top 0.4s cubic-bezier(0.22,1,0.36,1) 0.5s;
+}
+
+#fst-banner.fst-visible .fst-greeting { opacity: 1; transform: translateY(0); }
+
+/* ── Status pill ── */
+.fst-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--fst-pill-border);
+  background: var(--fst-pill-bg);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fst-pill-color);
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative; z-index: 2;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.08);
+  opacity: 0;
+  transform: translateX(10px);
+  transition:
+    opacity   0.5s cubic-bezier(0.22,1,0.36,1) 0.55s,
+    transform 0.5s cubic-bezier(0.22,1,0.36,1) 0.55s,
+    box-shadow 0.35s ease;
+}
+
+#fst-banner.fst-visible .fst-pill { opacity: 1; transform: translateX(0); }
+
+.fst-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: fst-dot-breathe 2.8s ease-in-out infinite;
+}
+.fst-pill--closed  .fst-dot { background:#ef4444; box-shadow:0 0 8px rgba(239,68,68,0.85); }
+.fst-pill--halfday .fst-dot { background:#f59e0b; box-shadow:0 0 8px rgba(245,158,11,0.85); }
+.fst-status { line-height:1; }
+
+/* Tricolor ribbon */
+.fst-ribbon {
+  position: absolute; left:0; top:0; bottom:0;
+  width:4px; display:flex; flex-direction:column;
+  z-index:4; border-radius:22px 0 0 22px;
+}
+.fst-ribbon-saffron { flex:1; background:#FF9933; }
+.fst-ribbon-white   { flex:1; background:rgba(255,255,255,0.80); }
+.fst-ribbon-green   { flex:1; background:#138808; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   EID UL-FITR & EID UL-ADHA
+══════════════════════════════════════════════════════════════ */
+
+#fst-banner.fst-eid-fitr,
+#fst-banner.fst-eid-adha {
+  --fst-bg:           rgba(3,6,20,0.91);
+  --fst-border-color: rgba(200,168,90,0.28);
+  --fst-border-hover: rgba(200,168,90,0.55);
+  --fst-glow-color:   rgba(200,168,90,0.10);
+  --fst-shimmer-line: linear-gradient(90deg,
+    transparent, rgba(200,168,90,0) 12%,
+    rgba(200,168,90,0.90) 50%,
+    rgba(200,168,90,0) 88%, transparent);
+  --fst-top-edge: linear-gradient(90deg,
+    transparent, rgba(200,168,90,0.20) 25%,
+    rgba(200,168,90,0.38) 50%,
+    rgba(200,168,90,0.20) 75%, transparent);
+  --fst-pill-bg:     rgba(200,168,90,0.08);
+  --fst-pill-border: rgba(200,168,90,0.30);
+  --fst-pill-color:  #d4a84e;
+  --fst-pill-glow:   rgba(200,168,90,0.22);
+}
+
+/* Arabesque pattern */
+.fst-eid-fitr .fst-bg,
+.fst-eid-adha .fst-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='rgba(200,168,90,0.11)' stroke-width='0.6'%3E%3Cpolygon points='30,4 34.7,14.5 46,13.1 38.5,21.8 41.5,33 30,27 18.5,33 21.5,21.8 14,13.1 25.3,14.5'/%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3Cline x1='0' y1='0' x2='60' y2='60'/%3E%3Cline x1='60' y1='0' x2='0' y2='60'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  opacity: 0.65;
+}
+
+.fst-eid-fitr .fst-greeting,
+.fst-eid-adha .fst-greeting {
+  background: linear-gradient(135deg,
+    #8a5e10 0%,#c8933a 20%,#e8c060 35%,
+    #f0d080 50%,#e8c060 65%,#c8933a 80%,#8a5e10 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fst-sweep 7s linear infinite;
+  filter: drop-shadow(0 1px 5px rgba(200,168,90,0.30));
+}
+.fst-eid-fitr .fst-sub,
+.fst-eid-adha .fst-sub { color: rgba(200,175,120,0.70); }
+
+/* Crescent */
+.fst-crescent-wrap {
+  position: absolute; right:14px; top:50%;
+  transform: translateY(-50%);
+  width: clamp(32px,5vw,48px); height: clamp(32px,5vw,48px);
+  z-index:1; pointer-events:none; opacity:0.52;
+  animation: fst-crescent-breathe 5s ease-in-out infinite;
+}
+.fst-crescent-wrap::before {
+  content:''; position:absolute; inset:-12px; border-radius:50%;
+  background: radial-gradient(circle,
+    rgba(200,168,90,0.16) 0%, rgba(200,168,90,0.04) 55%, transparent 70%);
+  animation: fst-halo 5s ease-in-out infinite;
+}
+.fst-crescent-svg {
+  width:100%; height:100%;
+  filter:
+    drop-shadow(0 0 6px rgba(212,168,78,0.75))
+    drop-shadow(0 0 18px rgba(212,168,78,0.32));
+}
+
+/* Stars */
+.fst-star {
+  position:absolute; border-radius:50%;
+  background: radial-gradient(circle,#f0d080 0%,#c8933a 60%,transparent 100%);
+  animation: fst-star-drift var(--td,18s) ease-in-out infinite var(--delay,0s);
+}
+.fst-star::after {
+  content:''; position:absolute; inset:-2px; border-radius:50%;
+  background:inherit; opacity:var(--op-min,.2);
+  animation: fst-star-opacity var(--tt,3.5s) ease-in-out infinite var(--delay2,0s);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   HOLI
+══════════════════════════════════════════════════════════════ */
+
+#fst-banner.fst-holi {
+  --fst-bg:           rgba(4,1,16,0.92);
+  --fst-border-color: rgba(200,80,255,0.24);
+  --fst-border-hover: rgba(200,80,255,0.50);
+  --fst-glow-color:   rgba(180,40,255,0.10);
+  --fst-shimmer-line: linear-gradient(90deg,
+    transparent,rgba(255,80,80,0.65) 20%,rgba(255,200,0,0.65) 35%,
+    rgba(80,255,120,0.65) 50%,rgba(80,120,255,0.65) 65%,
+    rgba(200,80,255,0.65) 80%,transparent);
+  --fst-top-edge: linear-gradient(90deg,
+    #ff5050 0%,#ffcc00 20%,#44dd44 40%,#4488ff 60%,#cc44ff 80%,#ff5050 100%);
+  --fst-pill-bg:     rgba(140,40,255,0.09);
+  --fst-pill-border: rgba(200,100,255,0.26);
+  --fst-pill-color:  rgba(230,200,255,0.95);
+  --fst-pill-glow:   rgba(200,80,255,0.22);
+}
+
+.fst-holi .fst-greeting {
+  color:#ffffff;
+  animation: fst-holi-glow 7s ease-in-out infinite;
+}
+.fst-holi .fst-sub { color:rgba(220,200,255,0.68); }
+
+.fst-blob {
+  position:absolute; border-radius:50% 40% 55% 45% / 50% 55% 45% 50%;
+  opacity:0; filter:blur(var(--blur,8px)) saturate(1.6);
+  animation: fst-powder-rise var(--td,3.5s) ease-out infinite var(--delay,0s);
+  mix-blend-mode:screen;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   REPUBLIC DAY
+══════════════════════════════════════════════════════════════ */
+
+#fst-banner.fst-republic {
+  --fst-bg:           rgba(3,8,22,0.91);
+  --fst-border-color: rgba(255,153,51,0.28);
+  --fst-border-hover: rgba(255,153,51,0.55);
+  --fst-glow-color:   rgba(255,153,51,0.08);
+  --fst-shimmer-line: linear-gradient(90deg,
+    transparent, rgba(255,153,51,0.75) 30%,
+    rgba(255,255,255,0.55) 50%, rgba(19,136,8,0.75) 70%, transparent);
+  --fst-pill-bg:     rgba(255,153,51,0.09);
+  --fst-pill-border: rgba(255,153,51,0.30);
+  --fst-pill-color:  rgba(255,185,100,0.96);
+  --fst-pill-glow:   rgba(255,153,51,0.22);
+}
+
+.fst-republic .fst-greeting {
+  background: linear-gradient(135deg,
+    #a85f10 0%,#e08030 25%,#f0a840 50%,#e08030 75%,#a85f10 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation: fst-sweep 7s linear infinite;
+  filter: drop-shadow(0 1px 5px rgba(255,140,40,0.28));
+}
+.fst-republic .fst-sub { color:rgba(255,200,130,0.68); }
+
+/* Ashoka Chakra */
+.fst-chakra-wrap {
+  position:absolute; right:14px; top:50%;
+  transform:translateY(-50%);
+  width:clamp(32px,5vw,46px); height:clamp(32px,5vw,46px);
+  z-index:1; pointer-events:none;
+  opacity:0; transition:opacity 0.6s ease 0.9s;
+  filter:drop-shadow(0 0 5px rgba(0,53,128,0.55));
+}
+#fst-banner.fst-visible .fst-chakra-wrap { opacity:0.52; }
+.fst-chakra-wrap svg { width:100%; height:100%; animation:fst-chakra-turn 18s linear infinite; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   INDEPENDENCE DAY
+══════════════════════════════════════════════════════════════ */
+
+#fst-banner.fst-independence {
+  --fst-bg:           rgba(3,8,22,0.91);
+  --fst-border-color: rgba(19,136,8,0.30);
+  --fst-border-hover: rgba(19,136,8,0.56);
+  --fst-glow-color:   rgba(19,136,8,0.08);
+  --fst-shimmer-line: linear-gradient(90deg,
+    transparent, rgba(255,153,51,0.70) 28%,
+    rgba(255,255,255,0.50) 50%, rgba(19,136,8,0.70) 72%, transparent);
+  --fst-pill-bg:     rgba(19,136,8,0.08);
+  --fst-pill-border: rgba(19,136,8,0.28);
+  --fst-pill-color:  rgba(100,210,100,0.96);
+  --fst-pill-glow:   rgba(19,136,8,0.22);
+}
+
+.fst-independence .fst-greeting {
+  background: linear-gradient(135deg,
+    #a85f10 0%,#e08030 22%,#f0a840 40%,
+    #ffffff 50%,#60c860 65%,#138808 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation: fst-sweep-tricolor 8s linear infinite;
+  filter: drop-shadow(0 1px 4px rgba(255,140,40,0.22));
+}
+.fst-independence .fst-sub { color:rgba(180,230,185,0.68); }
+
+.fst-confetti {
+  position:absolute; top:-12px;
+  width:var(--w,5px); height:var(--h,11px); border-radius:2px;
+  opacity:0;
+  animation:fst-confetti-fall var(--td,2.8s) ease-in infinite var(--delay,0s);
+  transform-origin:50% 0;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════════════════════════════ */
+
+@keyframes fst-line-pass {
+  0%   { transform:translateX(-100%); opacity:0; }
+  8%   { opacity:1; }
+  52%  { opacity:1; }
+  100% { transform:translateX(100%);  opacity:0; }
+}
+
+@keyframes fst-dot-breathe {
+  0%,100% { transform:scale(1);   opacity:0.55; }
+  50%     { transform:scale(1.5); opacity:1;    }
+}
+
+@keyframes fst-sweep {
+  0%   { background-position:200% center; }
+  100% { background-position:-200% center; }
+}
+
+@keyframes fst-sweep-tricolor {
+  0%   { background-position:200% center; }
+  100% { background-position:-200% center; }
+}
+
+@keyframes fst-crescent-breathe {
+  0%,100% { opacity:.48; filter:drop-shadow(0 0 5px rgba(212,168,78,.60)) drop-shadow(0 0 14px rgba(212,168,78,.24)); }
+  50%     { opacity:.72; filter:drop-shadow(0 0 10px rgba(212,168,78,.95)) drop-shadow(0 0 28px rgba(212,168,78,.48)); }
+}
+
+@keyframes fst-halo {
+  0%,100% { transform:scale(1);   opacity:0.44; }
+  50%     { transform:scale(1.2); opacity:1;    }
+}
+
+@keyframes fst-star-drift {
+  0%,100% { transform:translate(0,0); }
+  25%     { transform:translate(calc(var(--dx,4px)*.6),calc(var(--dy,-3px)*.4)); }
+  50%     { transform:translate(var(--dx,4px),var(--dy,-3px)); }
+  75%     { transform:translate(calc(var(--dx,4px)*.3),calc(var(--dy,-3px)*.7)); }
+}
+
+@keyframes fst-star-opacity {
+  0%,100% { opacity:var(--op-min,.2); }
+  50%     { opacity:var(--op-max,.9); }
+}
+
+@keyframes fst-holi-glow {
+  0%,100% { text-shadow:0 0 16px rgba(255,80,160,.58),0 0 44px rgba(200,40,255,.24); }
+  25%     { text-shadow:0 0 16px rgba(80,200,255,.58),0 0 44px rgba(0,160,255,.24);  }
+  50%     { text-shadow:0 0 16px rgba(255,200,0,.58), 0 0 44px rgba(255,140,0,.24);  }
+  75%     { text-shadow:0 0 16px rgba(80,255,120,.58),0 0 44px rgba(20,200,80,.24);  }
+}
+
+@keyframes fst-powder-rise {
+  0%   { opacity:0;   transform:translateY(8px)   scale(.6) rotate(var(--rot,0deg)); }
+  12%  { opacity:.75; }
+  70%  { opacity:.45; }
+  100% { opacity:0;   transform:translateY(-58px)  scale(.35) rotate(calc(var(--rot,0deg)+30deg)); }
+}
+
+@keyframes fst-chakra-turn {
+  from { transform:rotate(0deg);   }
+  to   { transform:rotate(360deg); }
+}
+
+@keyframes fst-confetti-fall {
+  0%   { opacity:0;  transform:translateY(0)    rotate(0deg)               scaleX(1);  }
+  6%   { opacity:1;  }
+  85%  { opacity:.8; }
+  100% { opacity:0;  transform:translateY(70px) rotate(var(--spin,420deg)) scaleX(.5); }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   HERO PADDING OFFSET
+══════════════════════════════════════════════════════════════ */
+#hero { padding-top: calc(clamp(100px,14vh,140px) + var(--fst-h,0px)); }
+
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════════════ */
+
+@media (max-width:639px) {
+  #fst-banner {
+    min-width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    border-radius: 18px;
+  }
+  #fst-banner::before,#fst-banner::after { border-radius:18px 18px 0 0; }
+  .fst-bg  { border-radius:18px; }
+  .fst-ribbon { border-radius:18px 0 0 18px; }
+  .fst-inner { padding:11px 14px; min-height:52px; }
+  .fst-greeting { font-size:.98rem; }
+  .fst-crescent-wrap { width:28px; height:28px; right:10px; }
+  .fst-chakra-wrap   { width:26px; height:26px; right:10px; }
+  .fst-eid-fitr .fst-inner,.fst-eid-adha .fst-inner { padding-right:44px; }
+  .fst-republic .fst-inner,.fst-independence .fst-inner { padding-right:40px; }
+  /* Touch: show sub text permanently since no hover */
+  #fst-banner.fst-visible .fst-sub {
+    max-height:3em; opacity:.60; transform:translateY(0); margin-top:3px;
+  }
+}
+
+@media (min-width:640px) { .fst-inner { padding:13px 22px; } }
+
+/* Touch devices: sub shows on settle */
+@media (hover:none) {
+  #fst-banner.fst-settled .fst-sub {
+    max-height:3em; opacity:.62; transform:translateY(0); margin-top:3px;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   REDUCED MOTION
+══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion:reduce) {
+  #fst-banner,#fst-banner.fst-visible,
+  #fst-banner.fst-settled:hover,#fst-banner.fst-settled:focus-within {
+    transition:none !important;
+    transform:translateX(-50%) translateY(0) scale(1) translateZ(0) !important;
+    opacity:1 !important;
+  }
+  #fst-banner.fst-settled {
+    backdrop-filter:blur(28px) saturate(1.8) !important;
+    -webkit-backdrop-filter:blur(28px) saturate(1.8) !important;
+    transition:none !important;
+  }
+  #fst-banner::after { animation:none !important; opacity:0 !important; }
+  .fst-greeting,.fst-sub,.fst-pill {
+    opacity:1 !important; transform:none !important;
+    max-height:3em !important; transition:none !important;
+  }
+  .fst-sub { opacity:.62 !important; margin-top:3px !important; }
+  .fst-crescent-svg,.fst-crescent-wrap::before,.fst-star,.fst-star::after,
+  .fst-blob,.fst-chakra-wrap svg,.fst-confetti,.fst-dot { animation:none !important; }
+  .fst-chakra-wrap { opacity:.5 !important; transition:none !important; }
+  .fst-dot { opacity:.88 !important; }
+  .fst-greeting { animation:none !important; -webkit-text-fill-color:unset !important; }
+  .fst-eid-fitr .fst-greeting,.fst-eid-adha .fst-greeting { color:#d4a84e !important; }
+  .fst-republic .fst-greeting,.fst-independence .fst-greeting { color:#f0a840 !important; }
+  .fst-holi .fst-greeting { text-shadow:none !important; }
+}

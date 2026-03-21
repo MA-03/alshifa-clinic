@@ -1,0 +1,524 @@
+/* ============================================================
+   AL-SHIFA CLINIC — festival-themes.css  v2.0
+   Whole-site theme overrides — keyed on html[data-festival]
+   
+   OVERLAY NOTE: body::before with z-index:-1 is invisible behind
+   the body's opaque background (overflow-x:hidden creates a
+   stacking context). The ambient overlay is injected as a real
+   DOM element (.fst-page-overlay) by festival-banner.js instead.
+   ============================================================ */
+
+
+/* ══════════════════════════════════════════════════════════════
+   PAGE OVERLAY — injected div by festival-banner.js
+   Fixed, pointer-events:none, above backgrounds, below content
+══════════════════════════════════════════════════════════════ */
+
+.fst-page-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;    /* above body bg, below all page content */
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+/* Eid — warm gold radial corners */
+html[data-festival="eid-fitr"]  .fst-page-overlay,
+html[data-festival="eid-adha"]  .fst-page-overlay {
+  background:
+    radial-gradient(ellipse 80% 50% at 50%  0%,   rgba(200,150,20,0.13) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 45% at 100% 100%, rgba(200,168,90,0.09) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 0%   70%,  rgba(160,100,10,0.07) 0%, transparent 50%);
+}
+
+/* Holi — vivid multi-hue corners */
+html[data-festival="holi"] .fst-page-overlay {
+  background:
+    radial-gradient(ellipse 70% 45% at 10%  5%,  rgba(255,60,160,0.12)  0%, transparent 55%),
+    radial-gradient(ellipse 70% 45% at 90%  95%, rgba(60,200,255,0.12)  0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50%  50%, rgba(200,60,255,0.06)  0%, transparent 55%),
+    radial-gradient(ellipse 45% 35% at 85%  10%, rgba(255,200,0,0.09)   0%, transparent 50%),
+    radial-gradient(ellipse 40% 30% at 15%  90%, rgba(80,255,120,0.08)  0%, transparent 50%);
+}
+
+/* Republic & Independence — saffron top-left, green bottom-right */
+html[data-festival="republic"]    .fst-page-overlay,
+html[data-festival="independence"] .fst-page-overlay {
+  background:
+    radial-gradient(ellipse 65% 45% at 0%   0%,   rgba(255,153,51,0.13) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 45% at 100% 100%, rgba(19,136,8,0.12)   0%, transparent 55%),
+    radial-gradient(ellipse 35% 25% at 50%  50%,  rgba(255,255,255,0.02) 0%, transparent 50%);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   EID UL-FITR & EID UL-ADHA
+   Strong midnight shift — noticeably deeper than default
+══════════════════════════════════════════════════════════════ */
+
+html[data-festival="eid-fitr"],
+html[data-festival="eid-adha"] {
+  /* Deeper, bluer midnight — clearly different from default #070a10 */
+  --bg0:  #020510;
+  --bg1:  #04091c;
+  --bg2:  #070e28;
+  --bg3:  #0a1232;
+  --surf: #0d1630;
+  --surf2:#121e40;
+
+  /* Border warm-gold shift */
+  --bd:   rgba(200,168,90,0.14);
+  --bd2:  rgba(200,168,90,0.26);
+
+  /* Gold brightened */
+  --gold:  #d4a84e;
+  --goldD: rgba(200,168,90,0.18);
+  --goldB: rgba(200,168,90,0.36);
+
+  /* Red → amber for Eid mood */
+  --red:   #9b6020;
+  --redD:  rgba(155,96,32,0.18);
+
+  /* Gradient overrides */
+  --gradBrand: linear-gradient(135deg, #7a4010, #d4a84e, #7a4010);
+  --gradGold:  linear-gradient(135deg, #7a4010, #d4a84e, #c89040, #d4a84e, #7a4010);
+  --gradHero:  linear-gradient(160deg, #020410 0%, #060e26 55%, #020410 100%);
+  --sh1: 0 2px 8px rgba(0,0,0,0.45);
+  --sh2: 0 8px 32px rgba(0,0,0,0.55);
+  --sh3: 0 24px 72px rgba(0,0,0,0.60);
+
+  scrollbar-color: #d4a84e #020510;
+}
+
+html[data-festival="eid-fitr"] ::-webkit-scrollbar-thumb,
+html[data-festival="eid-adha"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #c8933a, #e8c060, #c8933a);
+}
+
+/* Nav */
+html[data-festival="eid-fitr"] nav.stuck,
+html[data-festival="eid-adha"] nav.stuck {
+  background: rgba(2,5,16,0.97) !important;
+  border-bottom-color: rgba(200,168,90,0.22) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 0 50px rgba(200,168,90,0.06) !important;
+}
+
+/* Progress bar */
+html[data-festival="eid-fitr"] #spbar,
+html[data-festival="eid-adha"] #spbar {
+  background: linear-gradient(90deg, #7a4010, #d4a84e, #f0d080, #d4a84e, #7a4010) !important;
+  background-size: 200% !important;
+  box-shadow: 0 0 16px rgba(200,168,90,0.65) !important;
+}
+
+/* Section dividers — strong gold */
+html[data-festival="eid-fitr"] .sdiv::after,
+html[data-festival="eid-adha"] .sdiv::after {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(200,168,90,0.55) 20%,
+    rgba(220,190,100,1.00) 50%,
+    rgba(200,168,90,0.55) 80%,
+    transparent) !important;
+  filter: blur(0.4px);
+}
+
+/* Hero — richer gold/amber orbs */
+html[data-festival="eid-fitr"] .o1, html[data-festival="eid-adha"] .o1 {
+  background: radial-gradient(circle, rgba(160,100,10,0.30) 0%, transparent 70%) !important;
+}
+html[data-festival="eid-fitr"] .o2, html[data-festival="eid-adha"] .o2 {
+  background: radial-gradient(circle, rgba(200,168,90,0.22) 0%, transparent 70%) !important;
+}
+html[data-festival="eid-fitr"] .o3, html[data-festival="eid-adha"] .o3 {
+  background: radial-gradient(circle, rgba(180,140,60,0.16) 0%, transparent 70%) !important;
+}
+
+/* Section ambients */
+html[data-festival="eid-fitr"] #about::before,  html[data-festival="eid-adha"] #about::before,
+html[data-festival="eid-fitr"] #services::before,html[data-festival="eid-adha"] #services::before,
+html[data-festival="eid-fitr"] #doctor::before,  html[data-festival="eid-adha"] #doctor::before,
+html[data-festival="eid-fitr"] #contact::before, html[data-festival="eid-adha"] #contact::before {
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 15%, rgba(200,168,90,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 65% at 85% 85%, rgba(160,100,10,0.07) 0%, transparent 60%) !important;
+  animation: none !important;
+}
+
+/* Cards */
+html[data-festival="eid-fitr"] .svccard,
+html[data-festival="eid-adha"] .svccard { border-color: rgba(200,168,90,0.16) !important; }
+
+html[data-festival="eid-fitr"] .svccard:hover,
+html[data-festival="eid-adha"] .svccard:hover {
+  border-color: rgba(200,168,90,0.50) !important;
+  box-shadow: var(--sh2), 0 0 70px rgba(200,168,90,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.10) !important;
+}
+
+html[data-festival="eid-fitr"] .tcard:hover,
+html[data-festival="eid-adha"] .tcard:hover {
+  background: rgba(200,168,90,0.11) !important;
+  border-color: rgba(200,168,90,0.40) !important;
+}
+
+html[data-festival="eid-fitr"] .doccard,
+html[data-festival="eid-adha"] .doccard {
+  border-color: rgba(200,168,90,0.18) !important;
+  box-shadow: var(--sh3), 0 0 90px rgba(200,168,90,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.07) !important;
+}
+
+html[data-festival="eid-fitr"] .ccard,
+html[data-festival="eid-adha"] .ccard { border-color: rgba(200,168,90,0.18) !important; }
+
+html[data-festival="eid-fitr"] .acard,
+html[data-festival="eid-adha"] .acard { border-color: rgba(200,168,90,0.18) !important; }
+
+/* Nav active */
+html[data-festival="eid-fitr"] .nlink.active,
+html[data-festival="eid-adha"] .nlink.active { color: #d4a84e; }
+
+/* Section transitions */
+html[data-festival="eid-fitr"] .st-fill-services,
+html[data-festival="eid-adha"] .st-fill-services,
+html[data-festival="eid-fitr"] .st-fill-contact,
+html[data-festival="eid-adha"] .st-fill-contact { fill: #020510; }
+
+/* Footer */
+html[data-festival="eid-fitr"] footer,
+html[data-festival="eid-adha"] footer { border-top-color: rgba(200,168,90,0.18) !important; }
+
+html[data-festival="eid-fitr"] footer::before,
+html[data-festival="eid-adha"] footer::before {
+  width: 240px !important;
+  opacity: 0.75 !important;
+  background: linear-gradient(90deg, transparent, #d4a84e 35%, #f0d080 50%, #d4a84e 65%, transparent) !important;
+}
+
+/* Trust section dark bg */
+html[data-festival="eid-fitr"] #trust,
+html[data-festival="eid-adha"] #trust {
+  background: linear-gradient(160deg, #010409 0%, #050c1e 50%, #010409 100%) !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   HOLI
+   Deep violet-void, vibrant colour everywhere
+══════════════════════════════════════════════════════════════ */
+
+html[data-festival="holi"] {
+  --bg0:  #03010f;
+  --bg1:  #06021c;
+  --bg2:  #090428;
+  --bg3:  #0c0632;
+  --surf: #0b0420;
+  --surf2:#110630;
+
+  --bd:   rgba(200,80,255,0.15);
+  --bd2:  rgba(200,100,255,0.26);
+
+  --gold:  #cc50ff;
+  --goldD: rgba(200,80,255,0.16);
+  --goldB: rgba(200,80,255,0.32);
+  --red:   #cc40aa;
+  --redD:  rgba(200,40,160,0.18);
+
+  --gradBrand: linear-gradient(135deg, #8800cc, #cc50ff, #8800cc);
+  --gradGold:  linear-gradient(135deg, #8800cc, #cc50ff, #ff80ff, #cc50ff, #8800cc);
+  --gradHero:  linear-gradient(160deg, #03010f 0%, #080320 55%, #03010f 100%);
+
+  scrollbar-color: #c050ff #03010f;
+}
+
+html[data-festival="holi"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,
+    #ff5050, #ff9900, #ffee00, #44dd44, #4488ff, #cc44ff);
+}
+
+html[data-festival="holi"] nav.stuck {
+  background: rgba(3,1,15,0.97) !important;
+  border-bottom-color: rgba(200,80,255,0.22) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 0 40px rgba(200,80,255,0.08) !important;
+}
+
+html[data-festival="holi"] #spbar {
+  background: linear-gradient(90deg,
+    #ff4040,#ff9900,#ffee00,#44dd44,#4488ff,#cc44ff,#ff4040) !important;
+  background-size: 200% !important;
+  box-shadow: 0 0 18px rgba(200,80,255,0.65) !important;
+}
+
+html[data-festival="holi"] .sdiv::after {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,80,80,0.60)  16%,
+    rgba(255,200,0,0.75)  33%,
+    rgba(80,255,120,0.60) 50%,
+    rgba(80,120,255,0.60) 67%,
+    rgba(200,80,255,0.60) 84%,
+    transparent) !important;
+  filter: blur(0.4px);
+}
+
+html[data-festival="holi"] .o1 {
+  background: radial-gradient(circle, rgba(255,60,160,0.28) 0%, transparent 70%) !important;
+}
+html[data-festival="holi"] .o2 {
+  background: radial-gradient(circle, rgba(60,200,255,0.22) 0%, transparent 70%) !important;
+}
+html[data-festival="holi"] .o3 {
+  background: radial-gradient(circle, rgba(255,200,0,0.16) 0%, transparent 70%) !important;
+}
+
+html[data-festival="holi"] #about::before,
+html[data-festival="holi"] #services::before,
+html[data-festival="holi"] #doctor::before {
+  background:
+    radial-gradient(ellipse 65% 50% at 20% 20%, rgba(255,60,160,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 55% at 80% 80%, rgba(60,200,255,0.07) 0%, transparent 60%) !important;
+  animation: none !important;
+}
+
+html[data-festival="holi"] .svccard { border-color: rgba(180,80,255,0.16) !important; }
+html[data-festival="holi"] .svccard:hover {
+  border-color: rgba(200,80,255,0.45) !important;
+  box-shadow: var(--sh2), 0 0 65px rgba(200,80,255,0.16) !important;
+}
+html[data-festival="holi"] .tcard:hover {
+  background: rgba(180,80,255,0.09) !important;
+  border-color: rgba(200,80,255,0.35) !important;
+}
+html[data-festival="holi"] .doccard { border-color: rgba(200,80,255,0.18) !important; }
+html[data-festival="holi"] .ccard   { border-color: rgba(200,80,255,0.20) !important; }
+html[data-festival="holi"] .acard   { border-color: rgba(200,80,255,0.18) !important; }
+
+html[data-festival="holi"] .nlink.active { color: #cc50ff; }
+
+html[data-festival="holi"] .st-fill-services,
+html[data-festival="holi"] .st-fill-contact { fill: #03010f; }
+
+html[data-festival="holi"] #trust {
+  background: linear-gradient(160deg, #02000e 0%, #050118 50%, #02000e 100%) !important;
+}
+
+html[data-festival="holi"] footer { border-top-color: rgba(200,80,255,0.18) !important; }
+html[data-festival="holi"] footer::before {
+  width: 280px !important; opacity: 0.70 !important;
+  background: linear-gradient(90deg,
+    transparent,
+    #ff5050 12%, #ffcc00 28%, #44dd44 50%,
+    #4488ff 72%, #cc44ff 88%, transparent) !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   REPUBLIC DAY
+   Deep patriotic navy, strong saffron warmth
+══════════════════════════════════════════════════════════════ */
+
+html[data-festival="republic"] {
+  --bg0:  #020912;
+  --bg1:  #040f1e;
+  --bg2:  #071528;
+  --bg3:  #0a1b32;
+  --surf: #0d1c34;
+  --surf2:#122240;
+
+  --bd:   rgba(255,153,51,0.15);
+  --bd2:  rgba(255,153,51,0.28);
+
+  --gold:  #e08030;
+  --goldD: rgba(255,153,51,0.16);
+  --goldB: rgba(255,153,51,0.32);
+  --red:   #c87020;
+  --redD:  rgba(200,112,32,0.18);
+
+  --gradBrand: linear-gradient(135deg, #8a4010, #e08030, #8a4010);
+  --gradGold:  linear-gradient(135deg, #8a4010, #e08030, #f0b060, #e08030, #8a4010);
+  --gradHero:  linear-gradient(160deg, #020912 0%, #071525 55%, #020912 100%);
+
+  scrollbar-color: #FF9933 #020912;
+}
+
+html[data-festival="republic"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF9933, #ffffff 50%, #138808);
+}
+
+html[data-festival="republic"] nav.stuck {
+  background: rgba(2,9,18,0.97) !important;
+  border-bottom-color: rgba(255,153,51,0.22) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,153,51,0.07) !important;
+}
+
+html[data-festival="republic"] #spbar {
+  background: linear-gradient(90deg,
+    #FF9933 0%, #FF9933 33%,
+    #f0f0f0 33%, #f0f0f0 66%,
+    #138808 66%, #138808 100%) !important;
+  box-shadow: 0 0 16px rgba(255,153,51,0.65) !important;
+}
+
+html[data-festival="republic"] .sdiv::after {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,153,51,0.75) 22%,
+    rgba(255,255,255,0.50) 50%,
+    rgba(19,136,8,0.75) 78%,
+    transparent) !important;
+  filter: blur(0.4px);
+}
+
+html[data-festival="republic"] .o1 {
+  background: radial-gradient(circle, rgba(255,153,51,0.28) 0%, transparent 70%) !important;
+}
+html[data-festival="republic"] .o2 {
+  background: radial-gradient(circle, rgba(19,136,8,0.22) 0%, transparent 70%) !important;
+}
+html[data-festival="republic"] .o3 {
+  background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%) !important;
+}
+
+html[data-festival="republic"] #about::before,
+html[data-festival="republic"] #services::before {
+  background:
+    radial-gradient(ellipse 60% 45% at 15% 20%, rgba(255,153,51,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 55% at 85% 80%, rgba(19,136,8,0.07)   0%, transparent 60%) !important;
+  animation: none !important;
+}
+
+html[data-festival="republic"] .svccard { border-color: rgba(255,153,51,0.14) !important; }
+html[data-festival="republic"] .svccard:hover {
+  border-color: rgba(255,153,51,0.45) !important;
+  box-shadow: var(--sh2), 0 0 60px rgba(255,153,51,0.14) !important;
+}
+html[data-festival="republic"] .tcard:hover {
+  background: rgba(255,153,51,0.08) !important;
+  border-color: rgba(255,153,51,0.32) !important;
+}
+html[data-festival="republic"] .doccard { border-color: rgba(255,153,51,0.16) !important; }
+html[data-festival="republic"] .ccard   { border-color: rgba(255,153,51,0.18) !important; }
+html[data-festival="republic"] .acard   { border-color: rgba(255,153,51,0.16) !important; }
+
+html[data-festival="republic"] .nlink.active { color: #e08030; }
+
+html[data-festival="republic"] .st-fill-services,
+html[data-festival="republic"] .st-fill-contact { fill: #020912; }
+
+html[data-festival="republic"] #trust {
+  background: linear-gradient(160deg, #010710 0%, #051020 50%, #010710 100%) !important;
+}
+
+html[data-festival="republic"] footer { border-top-color: rgba(255,153,51,0.18) !important; }
+html[data-festival="republic"] footer::before {
+  width: 300px !important; opacity: 0.75 !important;
+  background: linear-gradient(90deg,
+    transparent, #FF9933 22%, #ffffff 50%, #138808 78%, transparent) !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   INDEPENDENCE DAY
+   Same navy base, green-dominant warmth
+══════════════════════════════════════════════════════════════ */
+
+html[data-festival="independence"] {
+  --bg0:  #020912;
+  --bg1:  #040f1e;
+  --bg2:  #071528;
+  --bg3:  #0a1b32;
+  --surf: #0d1c34;
+  --surf2:#122240;
+
+  --bd:   rgba(19,136,8,0.15);
+  --bd2:  rgba(19,136,8,0.28);
+
+  --gold:  #3cb844;
+  --goldD: rgba(19,136,8,0.16);
+  --goldB: rgba(19,136,8,0.32);
+  --red:   #138808;
+  --redD:  rgba(19,136,8,0.18);
+
+  --gradBrand: linear-gradient(135deg, #138808, #FF9933, #138808);
+  --gradGold:  linear-gradient(135deg, #0d6006, #3cb844, #80e080, #3cb844, #0d6006);
+  --gradHero:  linear-gradient(160deg, #020912 0%, #071525 55%, #020912 100%);
+
+  scrollbar-color: #FF9933 #020912;
+}
+
+html[data-festival="independence"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF9933, #ffffff 50%, #138808);
+}
+
+html[data-festival="independence"] nav.stuck {
+  background: rgba(2,9,18,0.97) !important;
+  border-bottom-color: rgba(19,136,8,0.24) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7) !important;
+}
+
+html[data-festival="independence"] #spbar {
+  background: linear-gradient(90deg,
+    #FF9933 0%, #FF9933 33%,
+    #f8f8f8 33%, #f8f8f8 66%,
+    #138808 66%, #138808 100%) !important;
+  box-shadow: 0 0 16px rgba(19,136,8,0.55) !important;
+}
+
+html[data-festival="independence"] .sdiv::after {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,153,51,0.75) 22%,
+    rgba(255,255,255,0.50) 50%,
+    rgba(19,136,8,0.75) 78%,
+    transparent) !important;
+  filter: blur(0.4px);
+}
+
+html[data-festival="independence"] .o1 {
+  background: radial-gradient(circle, rgba(255,153,51,0.26) 0%, transparent 70%) !important;
+}
+html[data-festival="independence"] .o2 {
+  background: radial-gradient(circle, rgba(19,136,8,0.22) 0%, transparent 70%) !important;
+}
+html[data-festival="independence"] .o3 {
+  background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%) !important;
+}
+
+html[data-festival="independence"] #about::before,
+html[data-festival="independence"] #services::before {
+  background:
+    radial-gradient(ellipse 60% 45% at 15% 20%, rgba(255,153,51,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 55% at 85% 80%, rgba(19,136,8,0.08)   0%, transparent 60%) !important;
+  animation: none !important;
+}
+
+html[data-festival="independence"] .svccard { border-color: rgba(19,136,8,0.14) !important; }
+html[data-festival="independence"] .svccard:hover {
+  border-color: rgba(19,136,8,0.45) !important;
+  box-shadow: var(--sh2), 0 0 60px rgba(19,136,8,0.14) !important;
+}
+html[data-festival="independence"] .tcard:hover {
+  background: rgba(19,136,8,0.08) !important;
+  border-color: rgba(19,136,8,0.32) !important;
+}
+html[data-festival="independence"] .doccard { border-color: rgba(19,136,8,0.16) !important; }
+html[data-festival="independence"] .ccard   { border-color: rgba(19,136,8,0.18) !important; }
+html[data-festival="independence"] .acard   { border-color: rgba(19,136,8,0.16) !important; }
+
+html[data-festival="independence"] .nlink.active { color: #3cb844; }
+
+html[data-festival="independence"] .st-fill-services,
+html[data-festival="independence"] .st-fill-contact { fill: #020912; }
+
+html[data-festival="independence"] #trust {
+  background: linear-gradient(160deg, #010710 0%, #051020 50%, #010710 100%) !important;
+}
+
+html[data-festival="independence"] footer { border-top-color: rgba(19,136,8,0.18) !important; }
+html[data-festival="independence"] footer::before {
+  width: 300px !important; opacity: 0.75 !important;
+  background: linear-gradient(90deg,
+    transparent, #FF9933 22%, #ffffff 50%, #138808 78%, transparent) !important;
+}
