@@ -9,6 +9,9 @@
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
+  /* Shared flag — used by parallax and CTA glow blocks */
+  var heroVisible = true;
+
   var isTouch = (typeof window.matchMedia === 'function')
     ? window.matchMedia('(pointer: coarse)').matches
     : ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
@@ -88,22 +91,25 @@
   if (!isTouch) {
     var cdot  = $('.cdot');
     var cring = $('.cring');
-    var mx = 0, my = 0, rx = 0, ry = 0;
+    var mx = 0, my = 0, rx = 0, ry = 0, ringSettled = true, ringRafId = null;
 
     if (cdot && cring) {
       document.addEventListener('mousemove', function (e) {
         mx = e.clientX; my = e.clientY;
         document.body.classList.add('con');
         cdot.style.left = mx + 'px'; cdot.style.top = my + 'px';
+        if (ringSettled) { ringSettled = false; ringRafId = requestAnimationFrame(lerpRing); }
       });
 
-      (function lerpRing() {
+      function lerpRing() {
         rx += (mx - rx) * 0.10; ry += (my - ry) * 0.10;
-        if (Math.abs(mx - rx) > 0.1 || Math.abs(my - ry) > 0.1) {
-          cring.style.left = rx + 'px'; cring.style.top = ry + 'px';
+        cring.style.left = rx + 'px'; cring.style.top = ry + 'px';
+        if (Math.abs(mx - rx) > 0.15 || Math.abs(my - ry) > 0.15) {
+          ringRafId = requestAnimationFrame(lerpRing);
+        } else {
+          ringSettled = true; ringRafId = null;
         }
-        requestAnimationFrame(lerpRing);
-      }());
+      }
 
       document.addEventListener('mousedown', function () { document.body.classList.add('cclk'); });
       document.addEventListener('mouseup',   function () { document.body.classList.remove('cclk'); });
@@ -121,6 +127,7 @@
     var canvas = $('#ptcl');
     if (canvas) {
       var ctx = canvas.getContext('2d');
+      if (!ctx) return;
       var W = 0, H = 0;
 
       function resizeCanvas() {
@@ -156,11 +163,27 @@
       };
       var particles = [];
       for (var i = 0; i < 28; i++) particles.push(new Particle());
-      (function animParticles() {
+
+      var ptclVisible = true;
+      var ptclRaf = null;
+
+      if (typeof IntersectionObserver !== 'undefined') {
+        new IntersectionObserver(function (entries) {
+          ptclVisible = entries[0].isIntersecting;
+          if (ptclVisible && !ptclRaf) ptclRaf = requestAnimationFrame(animParticles);
+        }, { threshold: 0 }).observe(canvas);
+      } else {
+        ptclVisible = true;
+      }
+
+      function animParticles() {
+        ptclRaf = null;
+        if (!ptclVisible) return;
         ctx.clearRect(0, 0, W, H);
         particles.forEach(function (p) { p.tick(); p.draw(); });
-        requestAnimationFrame(animParticles);
-      }());
+        ptclRaf = requestAnimationFrame(animParticles);
+      }
+      ptclRaf = requestAnimationFrame(animParticles);
     }
   }
 
@@ -180,7 +203,10 @@
       var pct = max > 0 ? (sy / max) * 100 : 0;
       var dy  = sy - lastSY;
 
-      if (spbar) spbar.style.width = pct + '%';
+      if (spbar) {
+        spbar.style.width = pct + '%';
+        spbar.classList.toggle('active', pct > 0);
+      }
       if (nav)   nav.classList.toggle('stuck', sy > 60);
       if (topB)  topB.classList.toggle('show', pct > 22);
 
@@ -347,7 +373,7 @@
     var heroSection = $('#hero');
     var hicons      = $$('.hicon');
     var pmx = window.innerWidth / 2, pmy = window.innerHeight / 2;
-    var heroVisible = true, parallaxRaf = null;
+    var parallaxRaf = null;
 
     document.addEventListener('mousemove', function (e) { pmx = e.clientX; pmy = e.clientY; });
 
@@ -431,6 +457,8 @@
 
   /* CLINIC STATUS — IST timezone */
   function updateStatus() {
+    /* On festival days, badge is owned by festival-banner.js */
+    if (window._fstActive) return;
     var now   = getNowIST();
     var day   = now.getDay();
     var hours = now.getHours() + now.getMinutes() / 60;
@@ -454,6 +482,7 @@
       if (hours >= 10 && hours < 19) { open = true; msg = 'Clinic is Open Now'; }
       else if (hours < 10)           { msg = 'Opens Today at 10:00 AM'; }
       else if (day === 6)            { msg = 'Opens Monday at 10:00 AM'; }
+      else if (day === 4)            { msg = 'Opens Friday at 10:00 AM (midday break 12:30–4:00 PM)'; }
       else                           { msg = 'Opens Tomorrow at 10:00 AM'; }
     }
 
@@ -510,17 +539,25 @@
 
     function refreshNextSlot() {
       slotText.textContent = computeNextSlot().label;
-      slotWrap.style.display = 'inline-flex';
+      slotWrap.style.visibility = 'visible';
+      slotWrap.style.opacity    = '1';
     }
     window._refreshNextSlot = refreshNextSlot;
     refreshNextSlot();
   }());
 
-  /* Single 60s interval for both status updates */
-  setInterval(function () {
+  /* Single 60s interval for both status updates — paused in background tab */
+  var statusInterval = setInterval(function () {
     updateStatus();
     if (typeof window._refreshNextSlot === 'function') window._refreshNextSlot();
   }, 60000);
+
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) {
+      updateStatus();
+      if (typeof window._refreshNextSlot === 'function') window._refreshNextSlot();
+    }
+  });
 
   /* HAMBURGER / MOBILE MENU */
   var hamBtn  = $('#hamBtn');
@@ -554,7 +591,7 @@
     }, { passive: true });
     mobmenu.addEventListener('touchend', function (e) {
       if (e.changedTouches[0].clientY - swipeStartY < -60 ||
-          Math.abs(e.changedTouches[0].clientX - swipeStartX) > 100) closeMob();
+          Math.abs(e.changedTouches[0].clientX - swipeStartX) > window.innerWidth * 0.25) closeMob();
     }, { passive: true });
   }
 
@@ -567,13 +604,23 @@
     skel.className = 'docphoto-skel skel';
     wrap.appendChild(skel);
     function onLoad() { img.classList.add('loaded'); skel.classList.add('done'); }
+    function onError() {
+      skel.classList.add('done');
+      img.style.display = 'none';
+      var ph = document.createElement('div');
+      ph.className = 'docphoto-placeholder';
+      ph.setAttribute('aria-label', 'Doctor photo unavailable');
+      ph.innerHTML = '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="72" height="72"><circle cx="40" cy="28" r="16" stroke="rgba(200,168,90,0.5)" stroke-width="1.5"/><path d="M10 72c0-16.569 13.431-30 30-30s30 13.431 30 30" stroke="rgba(200,168,90,0.5)" stroke-width="1.5" stroke-linecap="round"/></svg>';
+      wrap.appendChild(ph);
+    }
     if (img.complete && img.naturalWidth > 0) { onLoad(); }
-    else { img.addEventListener('load', onLoad); img.addEventListener('error', onLoad); }
+    else if (img.complete && img.naturalWidth === 0) { onError(); }
+    else { img.addEventListener('load', onLoad); img.addEventListener('error', onError); }
   }());
 
   /* BLUR-UP — logo images (excludes entry screen) */
   (function () {
-    $$('img[src="logo.png"]').forEach(function (img) {
+    $$('.logo-img').forEach(function (img) {
       if (img.classList.contains('elogoimg')) return;
       img.classList.add('blur-up');
       function onLoad() { img.classList.add('loaded'); }
@@ -587,7 +634,6 @@
     if (!isTouch) return;
     $$('.svccard').forEach(function (card) {
       card.setAttribute('tabindex', '0');
-      card.setAttribute('role', 'button');
       card.setAttribute('aria-expanded', 'false');
 
       function toggleCard(e) {
@@ -598,7 +644,8 @@
         });
         card.classList.toggle('svc-expanded', !wasOpen);
         card.setAttribute('aria-expanded', !wasOpen ? 'true' : 'false');
-        window._icons && window._icons();
+        /* Scope icon re-render to this card only — avoids full DOM rescan */
+        try { if (typeof lucide !== 'undefined') lucide.createIcons({ nameAttr: 'data-lucide', nodes: [card] }); } catch (e) {}
       }
       card.addEventListener('click', toggleCard);
       card.addEventListener('keydown', function (e) {
@@ -627,9 +674,9 @@
         var idx = cards.indexOf(en.target);
         if (idx >= 0) visibleSet[idx] = en.isIntersecting;
       });
-      var count = Math.max(Object.keys(visibleSet).filter(function (k) { return visibleSet[k]; }).length, 1);
+      var count = Object.keys(visibleSet).filter(function (k) { return visibleSet[k]; }).length;
       countEl.textContent = count + ' of ' + total;
-      fillEl.style.width  = ((count / total) * 100) + '%';
+      fillEl.style.width = (total > 0 ? (count / total) * 100 : 0) + '%';
     }, { threshold: 0.5 });
     cards.forEach(function (c) { cardIO.observe(c); });
   }());
@@ -639,12 +686,27 @@
     var frame    = $('.mframe');
     var fallback = $('.map-fallback');
     if (!frame || !fallback) return;
-    frame.addEventListener('error', function () { fallback.classList.add('visible'); });
-    setTimeout(function () {
+
+    function showFallback() {
+      fallback.classList.add('visible');
+      frame.style.display = 'none';
+      window._icons && window._icons();
+    }
+
+    /* iframes never fire 'error' — use load + size heuristic instead */
+    frame.addEventListener('load', function () {
       try {
-        if (frame.contentDocument === null) fallback.classList.add('visible');
-      } catch (e) { /* cross-origin — map loaded fine */ }
-    }, 8000);
+        /* Cross-origin: throws → map loaded (Google Maps is cross-origin) */
+        var doc = frame.contentDocument;
+        /* Same-origin blocked content often loads with tiny/zero body */
+        if (doc && doc.body && doc.body.innerHTML.length < 50) showFallback();
+      } catch (e) { /* cross-origin — assume map loaded fine, do nothing */ }
+    });
+
+    /* Final safety net: if iframe has no visible height after 9s it likely failed */
+    setTimeout(function () {
+      if (frame.offsetHeight < 10) showFallback();
+    }, 9000);
   }());
 
   /* SECTION HEADING REVEAL */
